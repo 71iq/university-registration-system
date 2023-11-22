@@ -1,4 +1,4 @@
-package com.maamoun;
+package com.swer348;
 
 public class Course {
     

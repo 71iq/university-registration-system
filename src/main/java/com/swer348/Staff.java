@@ -1,11 +1,24 @@
-package com.maamoun;
+package com.swer348;
 
-import com.Person;
+import java.time.LocalDate;
 
 public class Staff extends Person{
-
-    public Staff(String name, String contact) {
-        super(name, contact);
+    String staffID;
+    public Staff(String fName, String lName, String phoneNum, String city, LocalDate dob, String staffID) {
+        super(fName, lName, phoneNum, city, dob);
+        this.staffID = staffID;
     }
-    
+
+    public String getStaffID() {
+        return this.staffID;
+    }
+
+    public void setStaffID(String staffID) {
+        this.staffID = staffID;
+    }
+
+    @Override
+    public String toString() {
+        return "staffID=" + getStaffID() + "\n" ;
+    }
 }
