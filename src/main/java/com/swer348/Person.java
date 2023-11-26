@@ -27,19 +27,19 @@ public abstract class Person {
     private static LocalDate DoB;
 
     public static void addPerson() {
-        System.out.println("Enter the student first name: ");
+        System.out.println("Enter the first name: ");
         fn = sc.next();
         System.out.println("Enter the student last name: ");
         ln = sc.next();
-        System.out.println("Enter the student phone number: ");
+        System.out.println("Enter the phone number: ");
         nm = sc.next();
-        System.out.println("Enter the student city: ");
+        System.out.println("Enter the city: ");
         ct = sc.next();
-        System.out.println("Enter the student year of birth");
+        System.out.println("Enter the year of birth");
         yd = sc.nextInt();
-        System.out.println("Enter the student month number of birth");
+        System.out.println("Enter the month number of birth");
         md = sc.nextInt();
-        System.out.println("Enter the student day of birth");
+        System.out.println("Enter the day of birth");
         dd = sc.nextInt();
         DoB = LocalDate.of(yd, md, dd);
     }

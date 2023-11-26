@@ -11,6 +11,7 @@ public class Main {
             System.out.println("Enter the value desired: ");
             System.out.println("Enter 1 to add new member: ");
             System.out.println("Enter 2 to add new semester: ");
+            System.out.println("Enter 3 to add new course: ");
             System.out.println("Enter 0 to exit the program: ");
             if (input == 1)
                 User.addUser();
