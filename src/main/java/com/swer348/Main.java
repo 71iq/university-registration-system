@@ -15,6 +15,8 @@ public class Main {
             System.out.println("Enter 0 to exit the program: ");
             if (input == 1)
                 User.addUser();
+            if (input == 3)
+                CourseManager.addCourse();
         } while (input != 0);
         sc.close();
     }

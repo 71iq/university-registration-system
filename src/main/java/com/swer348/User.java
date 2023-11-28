@@ -2,6 +2,7 @@ package com.swer348;
 import java.util.*;
 
 public class User {
+
     public static void addUser() {
         System.out.println("Enter the desired value: ");
         System.out.println("Enter 1 to add new student: ");
@@ -15,4 +16,8 @@ public class User {
         if (role == 3) Person.addStaff();
         sc.close();
     } 
+
+    public static void addCourse(){
+        CourseManager.addCourse();
+    }
 }
