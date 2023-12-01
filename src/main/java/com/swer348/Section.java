@@ -41,6 +41,19 @@ public class Section {
         return students;
     }
 
+    boolean studentExistByID(String id){
+        boolean exist = students.stream().anyMatch(s -> s.getStudentID().equals(id));
+        return exist;
+    }
+
+    Student getStudentById(String id){
+        Student student = students.stream()
+        .filter(s -> s.getStudentID().equals(id))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Student not found"));
+        return student;
+    }
+
     int getStudentsNumber(){
         return students.size();
     }
