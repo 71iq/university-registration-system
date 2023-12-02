@@ -48,6 +48,7 @@ public abstract class Person {
         addPerson();
         String studentId = String.valueOf(LocalDate.now().getYear()) + "0" + String.valueOf(students.size() + 1);
         students.add(new Student(fn, ln, nm, ct, DoB, studentId));
+        System.out.print("Student "+fn+" "+ln+" has been added successfully\n\n");
     }
 
     public static void addFaculty() {

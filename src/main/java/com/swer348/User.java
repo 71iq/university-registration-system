@@ -10,10 +10,12 @@ public class User {
         System.out.println("Enter 3 to add new staff: ");
         System.out.println("Enter 0 to go back");
         Scanner sc = new Scanner(System.in);
-        int role = sc.nextInt();
-        if (role == 1) Person.addStudent();
-        if (role == 2) Person.addFaculty();
-        if (role == 3) Person.addStaff();
+        if(sc.hasNextInt()){
+            int role = sc.nextInt();
+            if (role == 1) Person.addStudent();
+            if (role == 2) Person.addFaculty();
+            if (role == 3) Person.addStaff();
+        }
         sc.close();
     } 
 
