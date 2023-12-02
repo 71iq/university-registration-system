@@ -5,9 +5,8 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int input; // asks for action from the user
+        int input = 0; // asks for action from the user
         do {
-            input = sc.nextInt();
             System.out.println("Enter the value desired: ");
             System.out.println("Enter 1 to add new member: ");
             System.out.println("Enter 2 to add new semester: ");
@@ -17,6 +16,7 @@ public class Main {
             System.out.println("Enter 6 to get a list for all students in a specific course: ");
             System.out.println("Enter 7 to get a list for all students in a specific course and section: ");
             System.out.println("Enter 0 to exit the program: ");
+            input = sc.nextInt();
             if (input == 1)
                 User.addUser();
             if (input == 3)
