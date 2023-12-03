@@ -3,8 +3,8 @@ package com.swer348;
 import java.util.Scanner;
 
 public class Main {
+    private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         int input; // asks for action from the user
         do {
             System.out.println("Enter the value desired: ");
@@ -61,5 +61,9 @@ public class Main {
         } while (input != 0);
 
         sc.close();
+    }
+
+    public static Scanner getScanner() {
+        return sc;
     }
 }

@@ -8,8 +8,8 @@ public class CourseManager {
 
     static ArrayList<Course> courses = new ArrayList<>();
 
+    public static Scanner sc = Main.getScanner();
     public static void addCourse(){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter the name for the course you want to create: ");
         String name = sc.next().trim();
         if(courseExist(name)) {

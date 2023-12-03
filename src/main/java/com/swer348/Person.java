@@ -12,7 +12,7 @@ public abstract class Person {
     private static ArrayList<Person> students = new ArrayList<>();
     private static ArrayList<Faculty> faculty = new ArrayList<>();
     private static ArrayList<Staff> staff = new ArrayList<>();
-    static Scanner sc = new Scanner(System.in);
+    static Scanner sc = Main.getScanner();
 
     public Person(String fName, String lName, String phoneNum, String city, LocalDate dob) {
         this.fName = fName;

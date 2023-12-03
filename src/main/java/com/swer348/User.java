@@ -9,14 +9,13 @@ public class User {
         System.out.println("Enter 2 to add new faculty: ");
         System.out.println("Enter 3 to add new staff: ");
         System.out.println("Enter 0 to go back");
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = Main.getScanner();
         if(sc.hasNextInt()){
             int role = sc.nextInt();
             if (role == 1) Person.addStudent();
             if (role == 2) Person.addFaculty();
             if (role == 3) Person.addStaff();
         }
-        sc.close();
     } 
 
     public static void addCourse(){
