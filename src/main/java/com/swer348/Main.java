@@ -1,11 +1,42 @@
 package com.swer348;
 
-import java.util.Scanner;
+import java.io.*;
+import java.time.*;
+import java.util.*;
 
 public class Main {
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
+
+    public static void readFile(String file) {
+        try {
+            Scanner scanFile = new Scanner(new File("inputs/" + file + ".txt"));
+            while (scanFile.hasNextLine()) {
+                String line = scanFile.nextLine();
+                String[] paras = line.split(",");
+
+                if (file.equals("student"))
+                    Person.getStudents().add(
+                            new Student(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
+                if (file.equals("staff"))
+                    Person.getStaff().add(
+                            new Staff(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
+                if (file.equals("faculty"))
+                    Person.getFaculty().add(
+                            new Faculty(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
+                if (file.equals("course"))
+                    CourseManager.getCourses().add(new Course(paras[0]));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
-        int input; // asks for action from the user
+        int input;
+        readFile("student");
+        readFile("faculty");
+        readFile("staff");
+        readFile("course");
         do {
             System.out.println("Enter the value desired: ");
             System.out.println("Enter 1 to add a new member: ");
@@ -23,33 +54,15 @@ public class Main {
 
                 // Process the input
                 switch (input) {
-                    case 1:
-                        User.addUser();
-                        break;
-                    case 2:
-                        System.out.println("Adding a new semester...");
-                        break;
-                    case 3:
-                        CourseManager.addCourse();
-                        break;
-                    case 4:
-                        CourseManager.removeCourse();
-                        break;
-                    case 5:
-                        CourseManager.switchSection();
-                        break;
-                    case 6:
-                        CourseManager.getAllStudents();
-                        break;
-                    case 7:
-                        CourseManager.getAllStudentsSection();
-                        break;
-                    case 0:
-                        System.out.println("Exiting the program. Goodbye!");
-                        break;
-                    default:
-                        System.out.println("Invalid input. Please enter a valid option.");
-                        break;
+                    case 1 -> Person.addMember();
+                    case 2 -> System.out.println("Adding a new semester...");
+                    case 3 -> CourseManager.addCourse();
+                    case 4 -> CourseManager.removeCourse();
+                    case 5 -> CourseManager.switchSection();
+                    case 6 -> CourseManager.getAllStudents();
+                    case 7 -> CourseManager.getAllStudentsSection();
+                    case 0 -> System.out.println("Exiting the program. Goodbye!");
+                    default -> System.out.println("Invalid input. Please enter a valid option.");
                 }
             } else {
                 // Handle the case where the input is not an integer

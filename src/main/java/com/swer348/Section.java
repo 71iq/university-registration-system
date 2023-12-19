@@ -1,7 +1,6 @@
 package com.swer348;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public class Section {
     private Character section;
@@ -21,11 +20,11 @@ public class Section {
         return students.indexOf(student);
     }
 
-    void AS(Student student){
+    void addStudent(Student student){
         students.add(student);
     }
 
-    void RS(Student student){
+    void removeStudent(Student student){
         students.removeIf(s -> s.getStudentID().equals(student.getStudentID()));
     }
 
@@ -61,6 +60,7 @@ public class Section {
     Date getTime(){
         return time;
     }
+
     void setTime(Date time){
         this.time=time;
     }

@@ -1,5 +1,6 @@
 package com.swer348;
 
+import java.io.FileWriter;
 import java.time.*;
 import java.util.*;
 
@@ -9,9 +10,9 @@ public abstract class Person {
     private String phoneNum;
     private String city;
     private LocalDate dob;
-    private static ArrayList<Person> students = new ArrayList<>();
-    private static ArrayList<Faculty> faculty = new ArrayList<>();
-    private static ArrayList<Staff> staff = new ArrayList<>();
+    private static final ArrayList<Student> students = new ArrayList<>();
+    private static final ArrayList<Faculty> faculty = new ArrayList<>();
+    private static final ArrayList<Staff> staff = new ArrayList<>();
     static Scanner sc = Main.getScanner();
 
     public Person(String fName, String lName, String phoneNum, String city, LocalDate dob) {
@@ -22,45 +23,81 @@ public abstract class Person {
         this.dob = dob;
     }
 
+    public static void addMember() {
+        System.out.println("Enter the desired value: ");
+        System.out.println("Enter 1 to add new student: ");
+        System.out.println("Enter 2 to add new faculty: ");
+        System.out.println("Enter 3 to add new staff: ");
+        System.out.println("Enter 0 to go back");
+        if (sc.hasNextInt()) {
+            int role = sc.nextInt();
+            if (role == 1) Person.addStudent();
+            if (role == 2) Person.addFaculty();
+            if (role == 3) Person.addStaff();
+        }
+    }
+
     private static String fn, ln, nm, ct;
-    private static int yd, md, dd;
     private static LocalDate DoB;
 
     public static void addPerson() {
         System.out.println("Enter the first name: ");
         fn = sc.next();
-        System.out.println("Enter the student last name: ");
+        System.out.println("Enter the last name: ");
         ln = sc.next();
         System.out.println("Enter the phone number: ");
         nm = sc.next();
         System.out.println("Enter the city: ");
         ct = sc.next();
         System.out.println("Enter the year of birth");
-        yd = sc.nextInt();
+        int yd = sc.nextInt();
         System.out.println("Enter the month number of birth");
-        md = sc.nextInt();
+        int md = sc.nextInt();
         System.out.println("Enter the day of birth");
-        dd = sc.nextInt();
+        int dd = sc.nextInt();
         DoB = LocalDate.of(yd, md, dd);
     }
 
     public static void addStudent() {
         addPerson();
-        String studentId = String.valueOf(LocalDate.now().getYear()) + "0" + String.valueOf(students.size() + 1);
+        String studentId = "STU" + (students.size() + 1);
         students.add(new Student(fn, ln, nm, ct, DoB, studentId));
-        System.out.print("Student "+fn+" "+ln+" has been added successfully\n\n");
+        try {
+            FileWriter fw = new FileWriter("inputs/student.txt", true);
+            fw.write(fn + "," + ln + "," + nm + "," + ct + "," + DoB.toString() + "," + studentId + "\n");
+            fw.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        System.out.print("Student " + fn + " " + ln + " has been added successfully\n\n");
     }
 
     public static void addFaculty() {
         addPerson();
-        String facultyId = String.valueOf(faculty.size() + 1);
+        String facultyId = "FAC" + String.valueOf(faculty.size() + 1);
+        try {
+            FileWriter fw = new FileWriter("inputs/faculty.txt", true);
+            fw.write(fn + "," + ln + "," + nm + "," + ct + "," + DoB.toString() + "," + facultyId + "\n");
+            fw.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         faculty.add(new Faculty(fn, ln, nm, ct, DoB, facultyId));
+        System.out.print("Fauclty " + fn + " " + ln + " has been added successfully\n\n");
     }
 
     public static void addStaff() {
         addPerson();
-        String staffId = String.valueOf(staff.size() + 1);
+        String staffId = "STA" + String.valueOf(staff.size() + 1);
+        try {
+            FileWriter fw = new FileWriter("inputs/staff.txt", true);
+            fw.write(fn + "," + ln + "," + nm + "," + ct + "," + DoB.toString() + "," + staffId + "\n");
+            fw.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         staff.add(new Staff(fn, ln, nm, ct, DoB, staffId));
+        System.out.print("Staff " + fn + " " + ln + " has been added successfully\n\n");
     }
 
     public String getFName() {
@@ -99,15 +136,31 @@ public abstract class Person {
         return this.dob;
     }
 
+    public static ArrayList<Staff> getStaff() {
+        return staff;
+    }
+
+    public static ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public static ArrayList<Faculty> getFaculty() {
+        return faculty;
+    }
+
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 
+    public static boolean personExists(String id) {
+        if (students.stream().anyMatch(e -> e.getStudentID().equals(id))) return true;
+        if (faculty.stream().anyMatch(e -> e.getFacultyID().equals(id))) return true;
+        if (staff.stream().anyMatch(e -> e.getStaffID().equals(id))) return true;
+        return false;
+    }
+
     @Override
     public String toString() {
-        return "Name= " + getFName() + " " + getLName() + "\n" +
-                "phone Number='" + getPhoneNum() + "\n" +
-                "City='" + getCity() + "\n" +
-                "Date of Birth='" + getDob() + "\n";
+        return "Name: " + getFName() + " " + getLName() + ", phone Number = " + getPhoneNum() + ", City = " + getCity() + ", Date of Birth = " + getDob();
     }
 }

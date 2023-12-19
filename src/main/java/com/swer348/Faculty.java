@@ -19,7 +19,7 @@ public class Faculty extends Person{
 
     @Override
     public String toString() {
-        return "facultyID=" + getFacultyID() + "\n" ;
+        return super.toString() + " facultyID=" + getFacultyID() + "\n" ;
     }
 
 }

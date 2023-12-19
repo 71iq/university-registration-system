@@ -19,6 +19,6 @@ public class Staff extends Person{
 
     @Override
     public String toString() {
-        return "staffID=" + getStaffID() + "\n" ;
+        return super.toString() + " staffID=" + getStaffID() + "\n" ;
     }
 }
