@@ -1,31 +1,32 @@
-Mathematics
-Computer Science
-Physics
-Chemistry
-Biology
-History
-English Literature
-Psychology
-Economics
-Political Science
-Geology
-Sociology
-Art History
-Business Administration
-Environmental Science
-Philosophy
-Marketing
-Anthropology
-Criminal Justice
-Music
-Film Studies
-Nutrition
-Theater Arts
-Graphic Design
-Physical Education
-Drama
-Information Technology
-Statistics
-Foreign Languages
-Public Relations
-SWER348
+mathematics,4,none
+computer science,3,mathematics-statistics
+physics,4,mathematics
+chemistry,3,mathematics
+biology,3,none
+history,3,none
+english literature,3,none
+psychology,3,none
+economics,2,mathematics
+political science,3,english literature
+geology,3,none
+sociology,3,psychology
+art history,3,english literature
+business administration,3,economics
+environmental science,3,biology, geology
+philosophy,3,none
+marketing,1,none
+anthropology,3,psychology
+criminal justice,3,none
+music,2,none
+film studies,3,none
+nutrition,3,chemistry
+theater arts,3,film studies
+graphic design,3,computer science-marketing
+physical education,3,none
+drama,3,film studies
+information technology,3,statistics
+statistics,4,none
+foreign languages,3,none
+public relations,3,sociology
+cinema,2,none
+cinema arts,4,cinema-film studies

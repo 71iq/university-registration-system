@@ -3,6 +3,7 @@ package com.swer348;
 import java.io.*;
 import java.time.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
@@ -15,16 +16,13 @@ public class Main {
                 String[] paras = line.split(",");
 
                 if (file.equals("student"))
-                    Person.getStudents().add(
-                            new Student(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
-                if (file.equals("staff"))
-                    Person.getStaff().add(
-                            new Staff(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
+                    Person.getStudents().add(new Student(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5], (ArrayList<Course>) Arrays.stream(paras[6].split("-")).map(e -> CourseManager.getCourses().get(CourseManager.courseIndex(e))).collect(Collectors.toList())));
                 if (file.equals("faculty"))
-                    Person.getFaculty().add(
-                            new Faculty(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
+                    Person.getFaculty().add(new Faculty(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
+                if (file.equals("staff"))
+                    Person.getStaff().add(new Staff(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
                 if (file.equals("course"))
-                    CourseManager.getCourses().add(new Course(paras[0]));
+                    CourseManager.getCourses().add(new Course(paras[0].toLowerCase(), Integer.parseInt(paras[1]), (ArrayList<Course>) Arrays.stream(paras[2].split("-")).map(e -> CourseManager.getCourses().get(CourseManager.courseIndex(e))).collect(Collectors.toList())));
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);

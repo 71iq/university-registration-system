@@ -1,23 +1,20 @@
 package com.swer348;
 
+import java.time.*;
 import java.util.*;
 
 public class Section {
-    private Character section;
-    private Date time;
-    private ArrayList<Student> students = new ArrayList<>();
-    Section(Character section,Date time){
+    private final Character section;
+    private final ArrayList<Student> students = new ArrayList<>();
+    private final Course course;
+    private final ArrayList<Lecture> lectures = new ArrayList<Lecture>();
+    Section(Course course, Character section){
         this.section=section;
-        this.time=time;
+        this.course = course;
     }
 
     boolean studentExist(Student student){
         return students.contains(student);
-    }
-
-    int studentIndex(Student student){
-        if(!studentExist(student)) return -1;
-        return students.indexOf(student);
     }
 
     void addStudent(Student student){
@@ -26,6 +23,14 @@ public class Section {
 
     void removeStudent(Student student){
         students.removeIf(s -> s.getStudentID().equals(student.getStudentID()));
+    }
+
+    public void addTimeSlot(LocalDateTime startTime) {
+        startTimes.add(startTime);
+    }
+
+    public ArrayList<LocalDateTime> getStartTimes() {
+        return startTimes;
     }
 
     boolean sectionFull(){
@@ -41,27 +46,18 @@ public class Section {
     }
 
     boolean studentExistByID(String id){
-        boolean exist = students.stream().anyMatch(s -> s.getStudentID().equals(id));
-        return exist;
+        return students.stream().anyMatch(s -> s.getStudentID().equals(id));
     }
 
     Student getStudentById(String id){
-        Student student = students.stream()
+        return students.stream()
         .filter(s -> s.getStudentID().equals(id))
         .findFirst()
         .orElseThrow(() -> new RuntimeException("Student not found"));
-        return student;
     }
 
     int getStudentsNumber(){
         return students.size();
     }
 
-    Date getTime(){
-        return time;
-    }
-
-    void setTime(Date time){
-        this.time=time;
-    }
 }

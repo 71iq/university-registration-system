@@ -5,6 +5,9 @@ import java.time.*;
 import java.util.*;
 
 public abstract class Person {
+
+    private static String fn, ln, nm, ct;
+    private static LocalDate DoB;
     private String fName;
     private String lName;
     private String phoneNum;
@@ -36,9 +39,6 @@ public abstract class Person {
             if (role == 3) Person.addStaff();
         }
     }
-
-    private static String fn, ln, nm, ct;
-    private static LocalDate DoB;
 
     public static void addPerson() {
         System.out.println("Enter the first name: ");
@@ -100,6 +100,19 @@ public abstract class Person {
         System.out.print("Staff " + fn + " " + ln + " has been added successfully\n\n");
     }
 
+    public static boolean studentExists(String id) {
+        return students.stream().anyMatch(e -> e.getStudentID().equals(id));
+    }
+
+    public static boolean staffExists(String id) {
+        return staff.stream().anyMatch(e -> e.getStaffID().equals(id));
+    }
+
+    public static boolean FacultyExists(String id) {
+        return faculty.stream().anyMatch(e -> e.getFacultyID().equals(id));
+    }
+
+    // <editor-fold desc="getters and setters">
     public String getFName() {
         return this.fName;
     }
@@ -151,13 +164,7 @@ public abstract class Person {
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
-
-    public static boolean personExists(String id) {
-        if (students.stream().anyMatch(e -> e.getStudentID().equals(id))) return true;
-        if (faculty.stream().anyMatch(e -> e.getFacultyID().equals(id))) return true;
-        if (staff.stream().anyMatch(e -> e.getStaffID().equals(id))) return true;
-        return false;
-    }
+    // </editor-fold>
 
     @Override
     public String toString() {

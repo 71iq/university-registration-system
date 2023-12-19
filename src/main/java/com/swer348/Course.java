@@ -4,12 +4,17 @@ import java.util.*;
 import java.util.stream.*;
 
 public class Course {
-    private String name;
+    private final String name;
+    private final int credits;
+    private final ArrayList<Course> prerequisites;
     private final ArrayList<Section> sec = new ArrayList<>();
 
-    Course(String name) {
+    Course(String name, int c, ArrayList<Course> pre) {
         this.name = name;
-        sec.addAll(Arrays.asList(new Section('A', null), new Section('B', null), new Section('C', null), new Section('D', null)));
+        this.credits = c;
+        this.prerequisites = pre;
+        if (pre.size() == 1 && pre.get(0).getName().equals("none")) pre.clear();
+        sec.addAll(Arrays.asList(new Section(this, 'A', null), new Section(this, 'B', null), new Section(this, 'C', null), new Section(this, 'D', null)));
     }
 
     void addStudent(Student student) {
@@ -96,15 +101,23 @@ public class Course {
         return sec.stream().mapToInt(Section::getStudentsNumber).sum();
     }
 
-    void setName(String name) {
-        this.name = name;
-    }
-
     String getName() {
         return name;
     }
 
+    public int getCredits() {
+        return credits;
+    }
+
+    public ArrayList<Course> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public boolean hasPrerequisites() {
+        return this.getPrerequisites().size() == 1 && this.getPrerequisites().get(0).getName().equals("none");
+    }
+
     public String toString() {
-        return this.getName();
+        return "Course: " + this.getName() + " has: " + this.getCredits() + " credits, and its' prerequisites are: " + this.getPrerequisites();
     }
 }

@@ -1,31 +1,31 @@
-Emma,Johnson,555-111-2222,City1,2000-02-10,STU01
-Aiden,Smith,666-222-3333,City2,1999-05-15,STU02
-Olivia,Williams,777-333-4444,City3,1998-09-20,STU03
-Liam,Brown,888-444-5555,City4,1997-12-10,STU04
-Sophia,Jones,999-555-6666,City5,1996-04-25,STU05
-Jackson,Miller,111-666-7777,City6,1995-07-07,STU06
-Ava,Davis,222-777-8888,City7,1994-10-30,STU07
-Lucas,Wilson,333-888-9999,City8,1993-03-15,STU08
-Isabella,Moore,444-999-0000,City9,1992-06-20,STU09
-Mason,Taylor,555-000-1111,City10,1991-11-05,STU10
-Ella,Anderson,666-111-2222,City11,1990-02-10,STU11
-Noah,Martin,777-222-3333,City12,1989-05-15,STU12
-Aria,Thompson,888-333-4444,City13,1988-09-20,STU13
-Oliver,Wright,999-444-5555,City14,1987-12-10,STU14
-Mia,Clark,111-555-6666,City15,1986-04-25,STU15
-Liam,Lewis,222-666-7777,City16,1985-07-07,STU16
-Sophie,Baker,333-777-8888,City17,1984-10-30,STU17
-Ethan,Hill,444-888-9999,City18,1983-03-15,STU18
-Amelia,Carter,555-999-0000,City19,1982-06-20,STU19
-Logan,Fisher,666-000-1111,City20,1981-11-05,STU20
-Avery,Jones,777-111-2222,City21,1980-02-10,STU21
-Carter,Harrison,888-222-3333,City22,1979-05-15,STU22
-Scarlett,Foster,999-333-4444,City23,1978-09-20,STU23
-Leo,Perry,111-444-5555,City24,1977-12-10,STU24
-Grace,Barnes,222-555-6666,City25,1976-04-25,STU25
-Jack,Scott,333-666-7777,City26,1975-07-07,STU26
-Hazel,Russell,444-777-8888,City27,1974-10-30,STU27
-Henry,Gibson,555-888-9999,City28,1973-03-15,STU28
-Lily,Dixon,666-999-0000,City29,1972-06-20,STU29
-Owen,Fletcher,777-000-1111,City30,1971-11-05,STU30
-Ihab,Maali,0597262036,Salfit,2003-09-12,STU31
+Emma,Johnson,555-111-2222,City1,2000-02-10,STU01,mathematics
+Aiden,Smith,666-222-3333,City2,1999-05-15,STU02,mathematics-statistics
+Olivia,Williams,777-333-4444,City3,1998-09-20,STU03,mathematics-economics
+Liam,Brown,888-444-5555,City4,1997-12-10,STU04,psychology-sociology
+Sophia,Jones,999-555-6666,City5,1996-04-25,STU05,film studies
+Jackson,Miller,111-666-7777,City6,1995-07-07,STU06,mathematics-film studies
+Ava,Davis,222-777-8888,City7,1994-10-30,STU07,cinema-film studies
+Lucas,Wilson,333-888-9999,City8,1993-03-15,STU08,foreign languages
+Isabella,Moore,444-999-0000,City9,1992-06-20,STU09,information technology-statistics
+Mason,Taylor,555-000-1111,City10,1991-11-05,STU10,physical education
+Ella,Anderson,666-111-2222,City11,1990-02-10,STU11,mathematics-physics
+Noah,Martin,777-222-3333,City12,1989-05-15,STU12,biology-psychology
+Aria,Thompson,888-333-4444,City13,1988-09-20,STU13,psychology
+Oliver,Wright,999-444-5555,City14,1987-12-10,STU14,criminal justice
+Mia,Clark,111-555-6666,City15,1986-04-25,STU15,music
+Liam,Lewis,222-666-7777,City16,1985-07-07,STU16,chemistry-nutrition
+Sophie,Baker,333-777-8888,City17,1984-10-30,STU17,film studies-cinema-theater arts-drama
+Ethan,Hill,444-888-9999,City18,1983-03-15,STU18,philosophy-marketing
+Amelia,Carter,555-999-0000,City19,1982-06-20,STU19,environmental science-biology-geology
+Logan,Fisher,666-000-1111,City20,1981-11-05,STU20,business administration-economics
+Avery,Jones,777-111-2222,City21,1980-02-10,STU21,art history-english literature
+Carter,Harrison,888-222-3333,City22,1979-05-15,STU22,none
+Scarlett,Foster,999-333-4444,City23,1978-09-20,STU23,none
+Leo,Perry,111-444-5555,City24,1977-12-10,STU24,none
+Grace,Barnes,222-555-6666,City25,1976-04-25,STU25,none
+Jack,Scott,333-666-7777,City26,1975-07-07,STU26,none
+Hazel,Russell,444-777-8888,City27,1974-10-30,STU27,none
+Henry,Gibson,555-888-9999,City28,1973-03-15,STU28,none
+Lily,Dixon,666-999-0000,City29,1972-06-20,STU29,none
+Owen,Fletcher,777-000-1111,City30,1971-11-05,STU30,none
+Ihab,Maali,0597262036,Salfit,2003-09-12,STU31,none
