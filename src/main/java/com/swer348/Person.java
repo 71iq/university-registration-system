@@ -1,6 +1,6 @@
 package com.swer348;
 
-import java.io.FileWriter;
+import java.io.*;
 import java.time.*;
 import java.util.*;
 
@@ -28,9 +28,9 @@ public abstract class Person {
 
     public static void addMember() {
         System.out.println("Enter the desired value: ");
-        System.out.println("Enter 1 to add new student: ");
-        System.out.println("Enter 2 to add new faculty: ");
-        System.out.println("Enter 3 to add new staff: ");
+        System.out.println("Enter 1 to add a new student: ");
+        System.out.println("Enter 2 to add a new faculty: ");
+        System.out.println("Enter 3 to add a new staff: ");
         System.out.println("Enter 0 to go back");
         if (sc.hasNextInt()) {
             int role = sc.nextInt();
@@ -61,43 +61,44 @@ public abstract class Person {
     public static void addStudent() {
         addPerson();
         String studentId = "STU" + (students.size() + 1);
-        students.add(new Student(fn, ln, nm, ct, DoB, studentId));
+        students.add(new Student(fn, ln, nm, ct, DoB, studentId, new ArrayList<>(List.of(new Course("none", 0)))));
         try {
             FileWriter fw = new FileWriter("inputs/student.txt", true);
-            fw.write(fn + "," + ln + "," + nm + "," + ct + "," + DoB.toString() + "," + studentId + "\n");
+            String coursesTaken = students.getLast().getCoursesTaken().toString().replace(", ", "-");
+            fw.write(String.format("%s,%s,%s,%s,%s,%s,%s%n", fn, ln, nm, ct, DoB.toString(), studentId, coursesTaken.substring(2, coursesTaken.length() - 1)));
             fw.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.print("Student " + fn + " " + ln + " has been added successfully\n\n");
+        System.out.printf("Student %s %s has been added successfully%n%n", fn, ln);
     }
 
     public static void addFaculty() {
         addPerson();
-        String facultyId = "FAC" + String.valueOf(faculty.size() + 1);
+        String facultyId = "FAC" + (faculty.size() + 1);
         try {
             FileWriter fw = new FileWriter("inputs/faculty.txt", true);
-            fw.write(fn + "," + ln + "," + nm + "," + ct + "," + DoB.toString() + "," + facultyId + "\n");
+            fw.write(String.format("%s,%s,%s,%s,%s,%s%n", fn, ln, nm, ct, DoB.toString(), facultyId));
             fw.close();
         } catch (Exception e) {
             System.out.println(e);
         }
         faculty.add(new Faculty(fn, ln, nm, ct, DoB, facultyId));
-        System.out.print("Fauclty " + fn + " " + ln + " has been added successfully\n\n");
+        System.out.printf("Faculty %s %s has been added successfully%n%n", fn, ln);
     }
 
     public static void addStaff() {
         addPerson();
-        String staffId = "STA" + String.valueOf(staff.size() + 1);
+        String staffId = "STA" + (staff.size() + 1);
         try {
             FileWriter fw = new FileWriter("inputs/staff.txt", true);
-            fw.write(fn + "," + ln + "," + nm + "," + ct + "," + DoB.toString() + "," + staffId + "\n");
+            fw.write(String.format("%s,%s,%s,%s,%s,%s%n", fn, ln, nm, ct, DoB.toString(), staffId));
             fw.close();
         } catch (Exception e) {
             System.out.println(e);
         }
         staff.add(new Staff(fn, ln, nm, ct, DoB, staffId));
-        System.out.print("Staff " + fn + " " + ln + " has been added successfully\n\n");
+        System.out.printf("Staff %s %s has been added successfully%n%n", fn, ln);
     }
 
     public static boolean studentExists(String id) {
@@ -168,6 +169,6 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return "Name: " + getFName() + " " + getLName() + ", phone Number = " + getPhoneNum() + ", City = " + getCity() + ", Date of Birth = " + getDob();
+        return String.format("Name: %s %s, Phone Number: %s, City: %s, Date of Birth: %s", getFName(), getLName(), getPhoneNum(), getCity(), getDob());
     }
 }

@@ -6,15 +6,29 @@ import java.util.stream.*;
 public class Course {
     private final String name;
     private final int credits;
-    private final ArrayList<Course> prerequisites;
-    private final ArrayList<Section> sec = new ArrayList<>();
+    private List<Course> prerequisites;
+    private final List<Section> sec = new ArrayList<>();
 
     Course(String name, int c, ArrayList<Course> pre) {
         this.name = name;
         this.credits = c;
-        this.prerequisites = pre;
-        if (pre.size() == 1 && pre.get(0).getName().equals("none")) pre.clear();
-        sec.addAll(Arrays.asList(new Section(this, 'A', null), new Section(this, 'B', null), new Section(this, 'C', null), new Section(this, 'D', null)));
+        this.prerequisites = pre.isEmpty() ? Collections.emptyList() : new ArrayList<>(pre);
+        sec.addAll(IntStream.rangeClosed('A', 'D')
+                .mapToObj(section -> new Section(this, (char) section))
+                .toList());
+    }
+
+    public Course(String name, int c) {
+        this.name = name;
+        this.prerequisites = new ArrayList<>();
+        this.credits = c;
+        sec.addAll(IntStream.rangeClosed('A', 'D')
+                .mapToObj(section -> new Section(this, (char) section))
+                .toList());
+    }
+
+    public void setPrerequisites(List<Course> prerequisites) {
+        this.prerequisites = prerequisites;
     }
 
     void addStudent(Student student) {
@@ -54,25 +68,23 @@ public class Course {
         if (fromSection >= 'A' && fromSection <= 'D' && toSection >= 'A' && toSection <= 'D' && toSection != fromSection) {
             int from = fromSection - 'A', to = toSection - 'A';
             if (!studentExistById(studentId)) {
-                System.out.println("There is no Student that carries the id: " + studentId + " in the course:" + name);
+                System.out.printf("There is no Student that carries the id: %s in the course: %s%n", studentId, name);
                 return;
             }
             if (!sec.get(from).studentExistByID(studentId)) {
-                System.out.println("There is no Student that carries the id: " + studentId + " in the course:" + name + fromSection);
+                System.out.printf("There is no Student that carries the id: %s in the course: %s%s%n", studentId, name, fromSection);
                 return;
             }
             if (sec.get(to).studentExistByID(studentId)) {
-                System.out.println("The Student that carries the id: " + studentId + " is already in the course:" + name + toSection);
+                System.out.printf("The Student that carries the id: %s is already in the course: %s%s%n", studentId, name, toSection);
                 return;
             }
             Student stu = sec.get(from).getStudentById(studentId);
-            sec.get(from).removeStudent(sec.get(from).getStudentById(studentId));
+            sec.get(from).removeStudent(stu);
             sec.get(to).addStudent(stu);
-            System.out.println("The Student " + stu.getFName() + " " + stu.getLName() + " that carries the ID: "
-                    + stu.getStudentID() + " has been removed from section " + fromSection
-                    + " and got added to section " + toSection);
-        } else
-            System.out.println("The inputs are incorrect");
+            System.out.printf("The Student %s %s that carries the ID: %s has been removed from section %s and added to section %s%n",
+                    stu.getFName(), stu.getLName(), stu.getStudentID(), fromSection, toSection);
+        }
     }
 
     boolean studentExist(Student student) {
@@ -109,15 +121,15 @@ public class Course {
         return credits;
     }
 
-    public ArrayList<Course> getPrerequisites() {
+    public List<Course> getPrerequisites() {
         return prerequisites;
     }
 
     public boolean hasPrerequisites() {
-        return this.getPrerequisites().size() == 1 && this.getPrerequisites().get(0).getName().equals("none");
+        return this.getPrerequisites().size() == 1 && this.getPrerequisites().getFirst().getName().equals("none");
     }
 
     public String toString() {
-        return "Course: " + this.getName() + " has: " + this.getCredits() + " credits, and its' prerequisites are: " + this.getPrerequisites();
+        return String.format("Course: %s has: %d credits, and its prerequisites are: %s", this.getName(), this.getCredits(), this.getPrerequisites());
     }
 }

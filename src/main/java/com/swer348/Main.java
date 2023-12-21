@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
 
+    static boolean assignedCourse = false;
+
     public static void readFile(String file) {
         try {
             Scanner scanFile = new Scanner(new File("inputs/" + file + ".txt"));
@@ -21,8 +23,10 @@ public class Main {
                     Person.getFaculty().add(new Faculty(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
                 if (file.equals("staff"))
                     Person.getStaff().add(new Staff(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
-                if (file.equals("course"))
-                    CourseManager.getCourses().add(new Course(paras[0].toLowerCase(), Integer.parseInt(paras[1]), (ArrayList<Course>) Arrays.stream(paras[2].split("-")).map(e -> CourseManager.getCourses().get(CourseManager.courseIndex(e))).collect(Collectors.toList())));
+                if (file.equals("course") && !assignedCourse)
+                    CourseManager.getCourses().add(new Course(paras[0].toLowerCase(), Integer.parseInt(paras[1]), new ArrayList<>()));
+                else if (file.equals("course"))
+                    CourseManager.getCourses().get(CourseManager.courseIndex(paras[0])).setPrerequisites(Arrays.stream(paras[2].split("-")).map(e -> CourseManager.getCourses().get(CourseManager.courseIndex(e))).collect(Collectors.toList()));
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -31,10 +35,13 @@ public class Main {
 
     public static void main(String[] args) {
         int input;
+        Room.initializeRooms();
+        readFile("course");
+        assignedCourse = true;
+        readFile("course");
         readFile("student");
         readFile("faculty");
         readFile("staff");
-        readFile("course");
         do {
             System.out.println("Enter the value desired: ");
             System.out.println("Enter 1 to add a new member: ");

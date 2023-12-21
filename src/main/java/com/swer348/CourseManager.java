@@ -1,13 +1,14 @@
 package com.swer348;
 
-import java.io.*;
-import java.util.*;
-import java.util.stream.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class CourseManager {
 
     private static final ArrayList<Course> courses = new ArrayList<>();
-
     public static Scanner sc = Main.getScanner();
 
     public static ArrayList<Course> getCourses() {
@@ -33,18 +34,18 @@ public class CourseManager {
             pre = sc.nextLine().toLowerCase();
             pres.add(getCourses().get(courseIndex(pre)));
         } while (!pre.equals("none"));
-        if (pres.size() == 1 && pres.get(0).getName().equals("none")) pres.clear();
+        if (pres.size() == 1 && pres.getFirst().getName().equals("none")) pres.clear();
         courses.add(new Course(name, cr, pres));
         try {
             FileWriter fw = new FileWriter("inputs/course.txt", true);
             String temp = pres.toString().replaceAll(", ", "-");
             temp = temp.substring(2, temp.length() - 1);
-            fw.write(name + "," + cr + "," + temp + "\n");
+            fw.write(String.format("%s,%d,%s%n", name, cr, temp));
             fw.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println("The course " + name + " has been added successfully");
+        System.out.printf("The course %s has been added successfully%n", name);
     }
 
     public static void removeCourse() {
@@ -59,7 +60,7 @@ public class CourseManager {
             FileWriter fw = new FileWriter("inputs/course.txt", false);
             courses.forEach(e -> {
                 try {
-                    fw.append(String.valueOf(e).toLowerCase()).append("\n");
+                    fw.append(String.format("%s%n", e.toString().toLowerCase()));
                 } catch (IOException e1) {
                     System.out.println(e1);
                 }
@@ -68,7 +69,7 @@ public class CourseManager {
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println("The course " + name + " has been removed successfully");
+        System.out.printf("The course %s has been removed successfully%n", name);
     }
 
     public static void switchSection() {
