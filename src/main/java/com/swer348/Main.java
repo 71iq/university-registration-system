@@ -60,7 +60,11 @@ public class Main {
                 // Process the input
                 switch (input) {
                     case 1 -> Person.addMember();
-                    case 2 -> System.out.println("Adding a new semester...");
+                    case 2 -> {
+                        new Semester(Person.getStudents(), CourseManager.getCourses(), Person.getFaculty(), Room.getRooms());
+                        System.out.println("New Semester Added Successfully!");
+                        System.out.println(Person.getStudents().getFirst().getSchedule());
+                    }
                     case 3 -> CourseManager.addCourse();
                     case 4 -> CourseManager.removeCourse();
                     case 5 -> CourseManager.switchSection();
