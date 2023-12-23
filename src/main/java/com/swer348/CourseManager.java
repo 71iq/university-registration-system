@@ -96,7 +96,8 @@ public class CourseManager {
 
     static void getAllStudents() {
         System.out.println("Enter the name of the course: ");
-        String str = sc.next().trim().toLowerCase();
+        sc.nextLine();
+        String str = sc.nextLine().trim().toLowerCase();
         if (!courseExist(str)) {
             System.out.println("The course does not EXIST!");
             return;
@@ -106,13 +107,14 @@ public class CourseManager {
 
     static void getAllStudentsSection() {
         System.out.println("Enter the name of the course: ");
-        String str = sc.next().trim().toLowerCase();
+        sc.nextLine();
+        String str = sc.nextLine().trim().toLowerCase();
         if (!courseExist(str)) {
             System.out.println("The course does not EXIST!");
             return;
         }
         System.out.println("Enter the section that you want: A/B/C/D");
-        String s2 = sc.next().toLowerCase();
+        String s2 = sc.next().toUpperCase();
         Character c = s2.charAt(0);
         courses.get(courseIndex(str)).getAllStudentsSection(c).forEach(System.out::println);
     }

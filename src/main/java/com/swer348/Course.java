@@ -40,11 +40,13 @@ public class Course {
             System.out.println("The Student is already REGISTERED in this Course!");
             return;
         }
+        final boolean[] isAdded = {false};
         sec.forEach(s -> {
-            if (!s.sectionFull()) {
+            if (!s.sectionFull() && !isAdded[0]) {
                 s.addStudent(student);
                 System.out.println("Student " + student.getFName() + " " + student.getLName()
                         + " has been added to Course " + name + " Section " + s.getSection());
+                isAdded[0] = true;
             }
         });
     }
