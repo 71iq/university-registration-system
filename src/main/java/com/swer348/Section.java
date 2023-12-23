@@ -30,6 +30,7 @@ public class Section {
 
     public void setInstructor(Faculty instructor) {
         this.instructor = instructor;
+        System.out.println("Instructor: " + this.instructor.getFName() + " " + this.getInstructor().getLName() + " has been assigned successfully to course:" + this.getCourse().getName() + this.getSection());
     }
 
     public void setCredits(int credits) {
@@ -84,8 +85,19 @@ public class Section {
 
     public Course getCourse() { return course; }
 
+    public void addLecture(Lecture lecture) {
+        this.getLectures().add(lecture);
+    }
     public ArrayList<Lecture> getLectures() {
         return lectures;
     }
 
+    @Override
+    public String toString() {
+        return "course=" + course.getName() +
+                " section=" + section +
+                ", lectureDuration=" + lectureDuration +
+                ", studentsNumber=" + getStudentsNumber() +
+                ", instructor=" + instructor;
+    }
 }

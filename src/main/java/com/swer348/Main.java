@@ -61,6 +61,8 @@ public class Main {
                 switch (input) {
                     case 1 -> Person.addMember();
                     case 2 -> {
+                        Person.getStudents().forEach(e -> e.setCredits(0));
+                        // for Maamoun add something to empty the courses and sections from their students,,, actually empty everything almost
                         Semester.createSemester();
                         System.out.println("New Semester Added Successfully!");
                     }

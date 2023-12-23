@@ -4,16 +4,27 @@ import java.time.*;
 import java.util.*;
 
 public class Lecture {
-    private final LocalTime startTime, endTime;
+    private LocalTime startTime, endTime;
     private Room room;
     private Section section;
     private int credits, lectureDuration;
 
-    public Lecture(LocalTime st, Section section) {
+    public Lecture(Section section) {
         this.section = section;
-        this.startTime = st;
         this.credits = section.getCredits();
-        this.endTime = startTime.plusMinutes(this.getCredits() * 50L);
+        this.lectureDuration = section.getLectureDuration();
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
     }
 
     public int getLectureDuration() {
@@ -82,6 +93,6 @@ public class Lecture {
     }
 
     public String toString() {
-        return String.format("lecture of course %s in section %s starts at %s and ends at %s in %s room", this.getSection().getCourse().getName(), this.getSection().getSection(), this.getStartTime().toString(), this.getEndTime().toString(), this.getRoom());
+        return this.section.getCourse().getName() + " " + this.section.getSection() + " " + this.lectureDuration;
     }
 }
