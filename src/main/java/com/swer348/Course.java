@@ -130,6 +130,6 @@ public class Course {
     }
 
     public String toString() {
-        return String.format("Course: %s has: %d credits, and its prerequisites are: %s", this.getName(), this.getCredits(), this.getPrerequisites());
+        return "Course: " + this.getName() + " has: " + this.getCredits();
     }
 }

@@ -61,9 +61,8 @@ public class Main {
                 switch (input) {
                     case 1 -> Person.addMember();
                     case 2 -> {
-                        new Semester(Person.getStudents(), CourseManager.getCourses(), Person.getFaculty(), Room.getRooms());
+                        Semester.createSemester();
                         System.out.println("New Semester Added Successfully!");
-                        System.out.println(Person.getStudents().getFirst().getSchedule());
                     }
                     case 3 -> CourseManager.addCourse();
                     case 4 -> CourseManager.removeCourse();

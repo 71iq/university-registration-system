@@ -4,35 +4,32 @@ import java.util.*;
 import java.time.*;
 
 public class Semester {
-    private final ArrayList<Student> students;
-    private final ArrayList<Course> courses;
-    private final ArrayList<Faculty> faculty;
-    private final ArrayList<Room> rooms;
-    private final ArrayList<Section> sections;
+    private static ArrayList<Student> students;
+    private static ArrayList<Course> courses;
+    private static ArrayList<Faculty> faculty;
+    private static ArrayList<Room> rooms;
+    private static ArrayList<Section> sections;
 
-    public Semester(ArrayList<Student> students, ArrayList<Course> courses, ArrayList<Faculty> faculty, ArrayList<Room> rooms) {
-        this.students = students;
-        this.courses = courses;
-        this.faculty = faculty;
-        this.rooms = rooms;
-        this.sections = new ArrayList<>();
-    }
-
-    public void createSemester() {
+    public static void createSemester() {
+        students = Student.getStudents();
+        courses = CourseManager.getCourses();
+        faculty = Person.getFaculty();
+        rooms = Room.getRooms();
+        sections = new ArrayList<>();
         assignStudentsToCourses();
         assignInstructors();
         assignCreditsToLectures();
         scheduleLectures();
     }
 
-    private void assignStudentsToCourses() {
+    private static void assignStudentsToCourses() {
         for (Student student : students) {
             int coursesToTake = getRandomNumberInRange(4, 6);
             Collections.shuffle(courses);
-            for (int i = 0; i < coursesToTake && student.getCredits() < 21; ) {
+            for (int i = 0; i < coursesToTake && student.getCredits() < 21; i++) {
                 Course course = courses.get(i);
+                System.out.println(i);
                 if (student.eligible(course) && !course.courseFull()) {
-                    i++;
                     course.addStudent(student);
                     student.addCourse(course);
                     student.setCredits(student.getCredits() + course.getCredits());
@@ -41,7 +38,7 @@ public class Semester {
         }
     }
 
-    private void assignInstructors() {
+    private static void assignInstructors() {
         Collections.shuffle(faculty);
         int facultyIndex = 0;
         for (Section section : sections) {
@@ -53,7 +50,7 @@ public class Semester {
         }
     }
 
-    private void assignCreditsToLectures() {
+    private static void assignCreditsToLectures() {
         for (Section section : sections) {
             int lectureDuration = 1;
             if (section.getCredits() == 4) lectureDuration = new int[]{2, 4}[getRandomNumberInRange(0, 1)];
@@ -67,7 +64,7 @@ public class Semester {
         }
     }
 
-    private void scheduleLectures() {
+    private static void scheduleLectures() {
         List<Lecture> allLectures = new ArrayList<>();
         for (Section section : sections) {
             if (section.getStudentsNumber() > 0)
@@ -102,7 +99,7 @@ public class Semester {
         }
     }
 
-    private boolean checkConflict(Map<?, Set<LocalTime>> scheduleMap, Lecture lecture) {
+    private static boolean checkConflict(Map<?, Set<LocalTime>> scheduleMap, Lecture lecture) {
         for (Map.Entry<?, Set<LocalTime>> entry : scheduleMap.entrySet()) {
             if (Collections.disjoint(entry.getValue(), lecture.getTimeSlots())) {
                 return false; // No conflict
@@ -112,7 +109,7 @@ public class Semester {
     }
 
     // Utility method to get a random number in a given range
-    private int getRandomNumberInRange(int min, int max) {
+    private static int getRandomNumberInRange(int min, int max) {
         Random random = new Random();
         return random.nextInt((max - min) + 1) + min;
     }
