@@ -19,7 +19,7 @@ public class Semester {
         assignStudentsToCourses();
         assignInstructors();
         assignCreditsToLectures();
-        scheduleLectures();
+//        scheduleLectures(); // for Maamoun : this generates error ,,, the lecture thing
     }
 
     private static void assignStudentsToCourses() {
