@@ -27,7 +27,7 @@ public class Schedule {
         this.schedule = s;
     }
 
-    public boolean isBusy(LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean isBusy(LocalTime startTime, LocalTime endTime) {
         DayOfWeek day = startTime.getDayOfWeek();
         LocalTime st = startTime.toLocalTime(), et = endTime.toLocalTime();
         return this.getSchedule().get(day).stream().allMatch(e -> e.getEndTime().isBefore(st) || e.getStartTime().isAfter(et));
@@ -56,4 +56,5 @@ public class Schedule {
     public String toString() {
         return "schedule=" + schedule.entrySet();
     }
+
 }

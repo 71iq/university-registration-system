@@ -1,5 +1,6 @@
 package com.swer348;
 
+import java.time.LocalTime;
 import java.util.*;
 
 public class Room {
@@ -36,6 +37,11 @@ public class Room {
     public static ArrayList<Room> getRooms() {
         return rooms;
     }
+    public boolean isAvailable(LocalTime startTime, LocalTime endTime) {
+    Schedule roomSchedule = this.getSchedule();
+    return roomSchedule.isBusy(startTime, endTime);
+}
+
 
     @Override
     public String toString() {

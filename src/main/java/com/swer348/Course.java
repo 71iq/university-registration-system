@@ -8,32 +8,23 @@ public class Course {
     private final int credits;
     private List<Course> prerequisites;
     private final List<Section> sec = new ArrayList<>();
-    private static ArrayList<Section> allSections = new ArrayList<>();
 
     Course(String name, int c, ArrayList<Course> pre) {
         this.name = name;
         this.credits = c;
         this.prerequisites = pre.isEmpty() ? Collections.emptyList() : new ArrayList<>(pre);
-        List<Section> sections = new ArrayList<>(IntStream.rangeClosed('A', 'D')
+        sec.addAll(IntStream.rangeClosed('A', 'D')
                 .mapToObj(section -> new Section(this, (char) section))
                 .toList());
-        allSections.addAll(sections);
-        sec.addAll(sections);
-    }
-
-    public static ArrayList<Section> getAllSections() {
-        return allSections;
     }
 
     public Course(String name, int c) {
         this.name = name;
         this.prerequisites = new ArrayList<>();
         this.credits = c;
-        List<Section> sections = new ArrayList<>(IntStream.rangeClosed('A', 'D')
+        sec.addAll(IntStream.rangeClosed('A', 'D')
                 .mapToObj(section -> new Section(this, (char) section))
                 .toList());
-        allSections.addAll(sections);
-        sec.addAll(sections);
     }
 
     public void setPrerequisites(List<Course> prerequisites) {

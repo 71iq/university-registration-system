@@ -1,7 +1,6 @@
 package com.swer348;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Section {
 
@@ -11,16 +10,16 @@ public class Section {
     private final ArrayList<Student> students = new ArrayList<>();
     private Faculty instructor;
     private final ArrayList<Lecture> lectures = new ArrayList<>();
-    private final static List<Section> sections = new ArrayList<>();
+    private final static ArrayList<Section> sections = new ArrayList<>();
 
     Section(Course c, Character section) {
         this.section = section;
         this.course = c;
         this.credits = c.getCredits();
-        Section.getSections().add(this);
+        Section.sections.add(this);
     }
 
-    public static List<Section> getSections() {
+    public static ArrayList<Section> getSections() {
         return sections;
     }
 
@@ -30,7 +29,6 @@ public class Section {
 
     public void setInstructor(Faculty instructor) {
         this.instructor = instructor;
-        System.out.println("Instructor: " + this.instructor.getFName() + " " + this.getInstructor().getLName() + " has been assigned successfully to course:" + this.getCourse().getName() + this.getSection());
     }
 
     public void setCredits(int credits) {
@@ -85,19 +83,8 @@ public class Section {
 
     public Course getCourse() { return course; }
 
-    public void addLecture(Lecture lecture) {
-        this.getLectures().add(lecture);
-    }
     public ArrayList<Lecture> getLectures() {
         return lectures;
     }
 
-    @Override
-    public String toString() {
-        return "course=" + course.getName() +
-                " section=" + section +
-                ", lectureDuration=" + lectureDuration +
-                ", studentsNumber=" + getStudentsNumber() +
-                ", instructor=" + instructor;
-    }
 }

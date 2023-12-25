@@ -1,7 +1,10 @@
 package com.swer348;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 public class Student extends Person {
     String studentID;
@@ -56,4 +59,34 @@ public class Student extends Person {
     public String toString() {
         return String.format("%s studentID=%s%n", super.toString(), getStudentID());
     }
+
+    public String toStringSchedule(Student student) {
+        StringBuilder scheduleStringBuilder = new StringBuilder();
+        Schedule studentSchedule = student.getSchedule();
+    
+        for (DayOfWeek day : EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY)) {
+            List<Lecture> lectures = studentSchedule.getSchedule().get(day);
+    
+            if (!lectures.isEmpty()) {
+                scheduleStringBuilder.append(day).append(":\n");
+    
+                lectures.forEach(lecture -> {
+                    Section section = lecture.getSection();
+    
+                    // Add a null check for section
+                    if (section != null) {
+                        scheduleStringBuilder.append("  ").append(section.getCourse().getName()).append(" - Section ").append(section.getSection());
+                        scheduleStringBuilder.append(" from ").append(lecture.getStartTime()).append(" to ").append(lecture.getEndTime()).append("\n");
+                    } else {
+                        // Handle the case where section is null
+                        scheduleStringBuilder.append("  Lecture information not available\n");
+                    }
+                });
+            }
+        }
+    
+        return scheduleStringBuilder.toString();
+    }
+    
+    
 }

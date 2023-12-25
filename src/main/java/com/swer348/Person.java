@@ -165,7 +165,7 @@ public abstract class Person {
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
-    // </editor-fold>
+    static Student getStudentById(String id) { return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found")); }
 
     @Override
     public String toString() {

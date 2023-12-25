@@ -51,6 +51,7 @@ public class Main {
             System.out.println("Enter 5 to switch section for a student: ");
             System.out.println("Enter 6 to get a list for all students in a specific course: ");
             System.out.println("Enter 7 to get a list for all students in a specific course and section: ");
+            System.out.println("Enter 8 to print the schedule for a specific student: ");
             System.out.println("Enter 0 to exit the program: ");
 
             // Check if the next input is an integer
@@ -61,8 +62,6 @@ public class Main {
                 switch (input) {
                     case 1 -> Person.addMember();
                     case 2 -> {
-                        Person.getStudents().forEach(e -> e.setCredits(0));
-                        // for Maamoun add something to empty the courses and sections from their students,,, actually empty everything almost
                         Semester.createSemester();
                         System.out.println("New Semester Added Successfully!");
                     }
@@ -71,12 +70,13 @@ public class Main {
                     case 5 -> CourseManager.switchSection();
                     case 6 -> CourseManager.getAllStudents();
                     case 7 -> CourseManager.getAllStudentsSection();
-                    case 0 -> System.out.println("Exiting the program. Goodbye!");
-                    default -> System.out.println("Invalid input. Please enter a valid option.");
+                    case 8 -> CourseManager.printStudentSchedule();
+                    case 0 -> System.out.printf("Exiting the program. Goodbye!");
+                    default -> System.out.printf("Invalid input. Please enter a valid option.");
                 }
             } else {
                 // Handle the case where the input is not an integer
-                System.out.println("Invalid input. Please enter a valid integer.");
+                System.out.printf("Invalid input. Please enter a valid integer.");
                 sc.nextLine(); // Consume the invalid input to avoid an infinite loop
                 input = -1; // Set input to -1 to continue the loop
             }

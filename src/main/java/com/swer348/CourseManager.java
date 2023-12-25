@@ -72,7 +72,7 @@ public class CourseManager {
         System.out.printf("The course %s has been removed successfully%n", name);
     }
 
-    public static void switchSection() { // for Maamoun : has error in checking student and course,,, try checking input
+    public static void switchSection() {
         System.out.println("Enter the id for the student: ");
         String str = sc.next().trim().toLowerCase();
         if (!Person.studentExists(str)) {
@@ -117,6 +117,13 @@ public class CourseManager {
         String s2 = sc.next().toUpperCase();
         Character c = s2.charAt(0);
         courses.get(courseIndex(str)).getAllStudentsSection(c).forEach(System.out::println);
+    }
+
+    static void printStudentSchedule(){
+        System.out.printf("Enter the student ID: ");
+        String id = sc.next();
+        Student sto = Person.getStudentById(id);
+        System.out.printf(sto.toStringSchedule(sto));
     }
 
     static boolean courseExist(String name) {
