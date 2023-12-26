@@ -101,8 +101,8 @@ public abstract class Person {
         System.out.printf("Staff %s %s has been added successfully%n%n", fn, ln);
     }
 
-    public static boolean studentExists(String id) {
-        return students.stream().anyMatch(e -> e.getStudentID().equals(id));
+    public static boolean studentNotExists(String id) {
+        return students.stream().noneMatch(e -> e.getStudentID().equals(id));
     }
 
     public static boolean staffExists(String id) {
@@ -113,41 +113,49 @@ public abstract class Person {
         return faculty.stream().anyMatch(e -> e.getFacultyID().equals(id));
     }
 
+    static Student getStudentById(String id) {
+        return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found"));
+    }
+
     // <editor-fold desc="getters and setters">
-    public String getFName() {
+    public final String getFName() {
         return this.fName;
     }
 
-    public void setFName(String fName) {
+    public final void setFName(String fName) {
         this.fName = fName;
     }
 
-    public String getLName() {
+    public final String getLName() {
         return this.lName;
     }
 
-    public void setLName(String lName) {
+    public final void setLName(String lName) {
         this.lName = lName;
     }
 
-    public String getPhoneNum() {
+    public final String getPhoneNum() {
         return this.phoneNum;
     }
 
-    public void setPhoneNum(String phoneNum) {
+    public final void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 
-    public String getCity() {
+    public final String getCity() {
         return this.city;
     }
 
-    public void setCity(String city) {
+    public final void setCity(String city) {
         this.city = city;
     }
 
-    public LocalDate getDob() {
+    public final LocalDate getDob() {
         return this.dob;
+    }
+
+    public final void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 
     public static ArrayList<Staff> getStaff() {
@@ -161,11 +169,7 @@ public abstract class Person {
     public static ArrayList<Faculty> getFaculty() {
         return faculty;
     }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-    static Student getStudentById(String id) { return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found")); }
+    // </editor-fold>
 
     @Override
     public String toString() {

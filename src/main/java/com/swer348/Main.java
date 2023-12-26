@@ -61,24 +61,20 @@ public class Main {
                 // Process the input
                 switch (input) {
                     case 1 -> Person.addMember();
-                    case 2 -> {
-                        Semester.createSemester();
-                        System.out.println("New Semester Added Successfully!");
-                    }
+                    case 2 -> Semester.createSemester();
                     case 3 -> CourseManager.addCourse();
                     case 4 -> CourseManager.removeCourse();
                     case 5 -> CourseManager.switchSection();
                     case 6 -> CourseManager.getAllStudents();
                     case 7 -> CourseManager.getAllStudentsSection();
                     case 8 -> CourseManager.printStudentSchedule();
-                    case 0 -> System.out.printf("Exiting the program. Goodbye!");
-                    default -> System.out.printf("Invalid input. Please enter a valid option.");
+                    case 0 -> System.out.println("Exiting the program. Goodbye!");
+                    default -> System.out.print("Invalid input. Please enter a valid option.");
                 }
             } else {
-                // Handle the case where the input is not an integer
-                System.out.printf("Invalid input. Please enter a valid integer.");
-                sc.nextLine(); // Consume the invalid input to avoid an infinite loop
-                input = -1; // Set input to -1 to continue the loop
+                System.out.print("Invalid input. Please enter a valid integer.");
+                sc.nextLine();
+                input = -1;
             }
 
         } while (input != 0);

@@ -87,4 +87,12 @@ public class Section {
         return lectures;
     }
 
+    public int getNumberOfLectures() {
+        return this.getCredits() * 50 / this.getLectureDuration();
+    }
+
+    @Override
+    public String toString() {
+        return "course = " + course +" section = " + section;
+    }
 }

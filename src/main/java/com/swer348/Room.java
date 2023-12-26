@@ -1,6 +1,6 @@
 package com.swer348;
 
-import java.time.LocalTime;
+import java.time.*;
 import java.util.*;
 
 public class Room {
@@ -8,22 +8,15 @@ public class Room {
     static ArrayList<String> building = new ArrayList<>(List.of("M", "E", "S")), floor = new ArrayList<>(List.of("1", "2")), hall = new ArrayList<>(List.of("01", "02", "03", "04", "05"));
 
     private final String name;
-    private Schedule schedule = new Schedule();
+    private Schedule schedule;
 
     public Room(String n) {
         this.name = n;
+        this.schedule = new Schedule();
     }
 
     public static void initializeRooms() {
-        building.forEach(b -> {
-            floor.forEach(f -> {
-                hall.forEach(h -> rooms.add(new Room(b + f + h)));
-            });
-        });
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+        building.forEach(b -> floor.forEach(f -> hall.forEach(h -> rooms.add(new Room(b + f + h)))));
     }
 
     public Schedule getSchedule() {
@@ -34,13 +27,13 @@ public class Room {
         return name;
     }
 
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
     public static ArrayList<Room> getRooms() {
         return rooms;
     }
-    public boolean isAvailable(LocalTime startTime, LocalTime endTime) {
-    Schedule roomSchedule = this.getSchedule();
-    return roomSchedule.isBusy(startTime, endTime);
-}
 
 
     @Override

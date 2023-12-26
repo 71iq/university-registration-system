@@ -2,6 +2,8 @@ package com.swer348;
 
 import java.util.*;
 import java.time.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Semester {
     private static ArrayList<Student> students;
@@ -9,18 +11,39 @@ public class Semester {
     private static ArrayList<Faculty> faculty;
     private static ArrayList<Room> rooms;
     private static ArrayList<Section> sections;
+    private static ArrayList<Lecture> lectures;
 
     public static void createSemester() {
+        System.out.println("Creating new semester");
+
+        lectures = new ArrayList<>();
         students = Student.getStudents();
         courses = CourseManager.getCourses();
         faculty = Person.getFaculty();
         rooms = Room.getRooms();
-        sections = Section.getSections(); 
+        sections = Section.getSections();
+
+        students.forEach(e -> {
+            e.setSchedule(new Schedule());
+            e.setCredits(0);
+        });
+        faculty.forEach(e -> {
+            e.setSchedule(new Schedule());
+            e.setCredits(0);
+        });
+        rooms.forEach(e -> e.setSchedule(new Schedule()));
+        sections.forEach(e -> {
+            e.getLectures().clear();
+            e.getStudents().clear();
+        });
+
         assignStudentsToCourses();
         assignInstructors();
+        assignSectionsLectureDuration();
         generateLectures();
-        assignCreditsToLectures();
-        scheduleLectures();
+        assignRoomToLecture();
+
+        System.out.println("New semester created successfully");
     }
 
     private static void assignStudentsToCourses() {
@@ -29,7 +52,6 @@ public class Semester {
             Collections.shuffle(courses);
             for (int i = 0; i < coursesToTake && student.getCredits() < 21; i++) {
                 Course course = courses.get(i);
-                System.out.println(i);
                 if (student.eligible(course) && !course.courseFull()) {
                     course.addStudent(student);
                     student.addCourse(course);
@@ -46,156 +68,75 @@ public class Semester {
             Faculty instructor = faculty.get(facultyIndex);
             if (instructor.getCredits() + section.getCredits() >= 18) continue;
             section.setInstructor(instructor);
+            instructor.setSection(section);
             instructor.setCredits(instructor.getCredits() + section.getCredits());
             facultyIndex = (facultyIndex + 1) % faculty.size();
         }
     }
 
-    private static void assignCreditsToLectures() {
+    private static void assignSectionsLectureDuration() {
         for (Section section : sections) {
-            int lectureDuration = 1;
-            if (section.getCredits() == 4) lectureDuration = new int[]{2, 4}[getRandomNumberInRange(0, 1)];
-            else if (section.getCredits() == 3) lectureDuration = new int[]{1, 3}[getRandomNumberInRange(0, 1)];
-            else if (section.getCredits() == 2) lectureDuration = new int[]{1, 2}[getRandomNumberInRange(0, 1)];
-            section.setLectureDuration(lectureDuration * 50);
-
-            for (Lecture lecture : section.getLectures()) {
-                lecture.setCredits(lectureDuration);
-            }
+            int credits = 1;
+            if (section.getCredits() == 4) credits = new int[]{2, 4}[getRandomNumberInRange(0, 1)];
+            else if (section.getCredits() == 3) credits = new int[]{1, 3}[getRandomNumberInRange(0, 1)];
+            else if (section.getCredits() == 2) credits = new int[]{1, 2}[getRandomNumberInRange(0, 1)];
+            section.setLectureDuration(credits * 50);
         }
     }
 
-    private static void scheduleLectures() {
-        List<Lecture> allLectures = new ArrayList<>();
-        for (Section section : sections) {
-            if (section.getStudentsNumber() > 0) {
-                allLectures.addAll(section.getLectures());
+    private static void generateLectures() {
+        for (Section section : sections)
+            if (section.getStudentsNumber() > 0) for (int i = 0; i < section.getNumberOfLectures(); i++) {
+                Lecture lecture = new Lecture(section, section.getLectureDuration());
+                section.getLectures().add(lecture);
+                lectures.add(lecture);
             }
-        }
-    
-        // Sort lectures by start time
-        allLectures.sort(Comparator.comparing(Lecture::getStartTime));
-    
-        // Create schedule maps for students, faculty, and rooms
-        Map<Student, Set<LocalTime>> studentSchedule = new HashMap<>();
-        Map<Faculty, Set<LocalTime>> facultySchedule = new HashMap<>();
-        Map<Room, Set<LocalTime>> roomSchedule = new HashMap<>();
-    
-        for (Lecture lecture : allLectures) {
-            Section section = lecture.getSection();
-            Faculty instructor = section.getInstructor();
-            Room room = lecture.getRoom();
-    
-            // Check for conflicts with students, faculty, and rooms
-            if (checkConflict(studentSchedule, lecture) ||
-                checkConflict(facultySchedule, lecture) ||
-                checkConflict(roomSchedule, lecture)) {
-                // Handle conflicts here (e.g., reschedule or skip)
-                continue;
+    }
+
+    private static void assignRoomToLecture() {
+        Collections.shuffle(lectures);
+        List<DayOfWeek> days = new ArrayList<>(List.of(DayOfWeek.values()));
+        days.removeAll(List.of(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY));
+        List<Integer> hours = new ArrayList<>(IntStream.range(8, 15).boxed().toList()), minutes = new ArrayList<>(IntStream.range(0, 6).map(e -> e * 10).boxed().toList());
+        for (Lecture lecture : lectures) {
+            boolean found = false;
+            int tries = 0;
+            while (!found && tries++ < 10) {
+                Collections.shuffle(days, new Random(0));
+                for (DayOfWeek day : days) {
+                    lecture.setDay(day);
+                    Collections.shuffle(hours, new Random(0));
+                    for (int i : hours) {
+                        Collections.shuffle(minutes, new Random(0));
+                        for (int j : minutes) {
+                            for (Room room : rooms) {
+                                LocalTime startTime = LocalTime.MIN.plusHours(i).plusMinutes(j);
+                                LocalTime endTime = startTime.plusMinutes(lecture.getLectureDuration());
+                                lecture.setStartTime(startTime);
+                                lecture.setEndTime(endTime);
+                                if (room.getSchedule().isNotBusy(day, startTime, endTime) && lecture.getSection().getStudents().stream().allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime)) && lecture.getSection().getInstructor().getSchedule().isNotBusy(day, startTime, endTime)) {
+                                    lecture.setRoom(room);
+                                    room.getSchedule().addLecture(lecture);
+                                    lecture.getSection().getInstructor().getSchedule().addLecture(lecture);
+                                    lecture.getSection().getStudents().forEach(e -> e.getSchedule().addLecture(lecture));
+                                    found = true;
+                                }
+                                if (found) break;
+                            }
+                            if (found) break;
+                        }
+                        if (found) break;
+                    }
+                    if (found) break;
+                }
             }
-    
-            // If no conflicts, schedule the lecture
-            studentSchedule.computeIfAbsent(section.getCourse().getAllStudents().getFirst(), k -> new HashSet<>()).addAll(lecture.getTimeSlots());
-            facultySchedule.computeIfAbsent(instructor, k -> new HashSet<>()).addAll(lecture.getTimeSlots());
-            roomSchedule.computeIfAbsent(room, k -> new HashSet<>()).addAll(lecture.getTimeSlots());
+            if (!found)
+                System.out.println("No time found for lecture: " + lecture);
         }
     }
 
-    private static boolean checkConflict(Map<?, Set<LocalTime>> scheduleMap, Lecture lecture) {
-        for (Map.Entry<?, Set<LocalTime>> entry : scheduleMap.entrySet()) {
-            if (Collections.disjoint(entry.getValue(), lecture.getTimeSlots())) {
-                return false; // No conflict
-            }
-        }
-        return true; // Conflict found
-    }
-
-    // Utility method to get a random number in a given range
     private static int getRandomNumberInRange(int min, int max) {
         Random random = new Random();
         return random.nextInt((max - min) + 1) + min;
     }
-
-    private static void generateLectures() {
-        for (Section section : sections) {
-            if (section.getStudentsNumber() > 0) {
-                for (int i = 0; i < 3; i++) {  // Generate 3 lectures per section
-                    // Generate random lecture duration between 50 and 150 minutes
-                    int lectureDuration = getRandomNumberInRange(50, 150);
-                    Lecture lecture = createRandomLecture(section, lectureDuration);
-                    section.getLectures().add(lecture);
-    
-                    // Add the lecture to the section's schedule
-                    section.getInstructor().getSchedule().addLecture(lecture.getStartTime().getDayOfWeek(), lecture);
-                }
-            }
-        }
-    }
-
-    private static LocalTime generateRandomStartTime() {
-        // Assume classes start between 8 AM and 6 PM
-        int startHour = getRandomNumberInRange(8, 17);
-        int startMinute = getRandomNumberInRange(0, 59);
-        return LocalTime.of(startHour, startMinute);
-    }
-
-    static ArrayList<Section> getSections(){
-        return sections;
-    }
-
-    private static Lecture createRandomLecture(Section section, int lectureDuration) {
-        // Generate a random start time for the lecture
-        LocalTime startTime = generateRandomStartTime();
-    
-        // Create a new Lecture object with the generated start time and section
-        Lecture lecture = new Lecture(startTime, section);
-    
-        // Set the lecture duration
-        lecture.setLectureDuration(lectureDuration);
-    
-        // Assign a room to the lecture (you may need to implement this part)
-        Room room = assignRoomToLecture(); // You need to implement this method
-        lecture.setRoom(room);
-    
-        // Add the lecture to the section's schedule
-        section.getInstructor().getSchedule().addLecture(lecture.getStartTime().getDayOfWeek(), lecture);
-    
-        return lecture;
-    }
-    
-    private static Room assignRoomToLecture() {
-        List<Room> availableRooms = Room.getRooms();
-        Random random = new Random();
-
-        // Try to find an available room, retrying up to 100 times
-        for (int i = 0; i < 100; i++) {
-            Room room = availableRooms.get(random.nextInt(availableRooms.size()));
-
-            // Assume lecture duration is 1 hour (you can adjust based on your needs)
-            LocalDateTime startDateTime = generateRandomStartDateTime();
-            LocalDateTime endDateTime = startDateTime.plusHours(1);
-
-            // Check if the room is available during the generated time slot
-            if (room.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
-                 // If the room is available, return it
-                return room;
-            }
-            // If the room is not available, try again
-    }
-
-        // If no available room is found after 100 attempts, you might want to handle this case
-        throw new RuntimeException("Unable to find an available room for the lecture");
-    }
-
-    private static LocalDateTime generateRandomStartDateTime() {
-        // Assume classes start between 8 AM and 6 PM
-        int startHour = getRandomNumberInRange(8, 17);
-        int startMinute = getRandomNumberInRange(0, 59);
-    
-        // Assume we are generating lectures for the current date
-        LocalDate currentDate = LocalDate.now();
-    
-        return LocalDateTime.of(currentDate, LocalTime.of(startHour, startMinute));
-    }
-
 }

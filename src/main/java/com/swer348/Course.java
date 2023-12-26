@@ -44,8 +44,6 @@ public class Course {
         sec.forEach(s -> {
             if (!s.sectionFull() && !isAdded[0]) {
                 s.addStudent(student);
-                System.out.println("Student " + student.getFName() + " " + student.getLName()
-                        + " has been added to Course " + name + " Section " + s.getSection());
                 isAdded[0] = true;
             }
         });

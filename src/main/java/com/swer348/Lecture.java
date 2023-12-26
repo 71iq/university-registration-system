@@ -1,38 +1,24 @@
 package com.swer348;
 
 import java.time.*;
-import java.util.*;
 
 public class Lecture {
-    private final LocalTime startTime, endTime;
+    private LocalTime startTime, endTime;
+    private DayOfWeek day;
     private Room room;
     private Section section;
     private int credits, lectureDuration;
 
-    public Lecture(LocalTime st, Section section) {
+    // for initializing lectures in semester before having start time
+    public Lecture(Section section, int lectureDuration) {
         this.section = section;
-        this.startTime = st;
-        this.credits = section.getCredits();
-        this.endTime = startTime.plusMinutes(this.getCredits() * 50L);
-    }
-
-    public int getLectureDuration() {
-        return lectureDuration;
-    }
-
-    public void setLectureDuration(int lectureDuration) {
         this.lectureDuration = lectureDuration;
+        this.credits = section.getCredits();
     }
 
-    public int getCredits() {
-        return credits;
-    }
-
-    public void setCredits(int credits) {
-        this.credits = credits;
-    }
-
-    public Lecture(LocalTime st, LocalTime et) {
+    // for adding filler or template lectures
+    public Lecture(DayOfWeek day, LocalTime st, LocalTime et) {
+        this.day = day;
         this.endTime = et;
         this.startTime = st;
     }
@@ -41,8 +27,28 @@ public class Lecture {
         this.room = room;
     }
 
+    public int getLectureDuration() {
+        return lectureDuration;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
     public LocalTime getStartTime() {
         return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setDay(DayOfWeek day) {
+        this.day = day;
     }
 
     public LocalTime getEndTime() {
@@ -57,28 +63,8 @@ public class Lecture {
         return section;
     }
 
-    public List<LocalTime> getTimeSlots() {
-        List<LocalTime> timeSlots = new ArrayList<>();
-        LocalTime currentTime = startTime;
-
-        while (currentTime.isBefore(endTime)) {
-            timeSlots.add(currentTime);
-            currentTime = currentTime.plusMinutes(5);
-        }
-
-        return timeSlots;
-    }
-
-    private List<LocalTime> generateTimeSlots() {
-        List<LocalTime> timeSlots = new ArrayList<>();
-        LocalTime currentTime = startTime;
-
-        while (currentTime.isBefore(endTime)) {
-            timeSlots.add(currentTime);
-            currentTime = currentTime.plusMinutes(5);
-        }
-
-        return timeSlots;
+    public DayOfWeek getDay() {
+        return day;
     }
 
     public String toString() {
