@@ -17,6 +17,24 @@ public class Student extends Person {
         if (coursesTaken.size() == 1 && coursesTaken.getFirst().getName().equals("none")) coursesTaken.clear();
     }
 
+    public double calculateGPA() {
+        if (coursesTaken.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalPoints = 0.0;
+        int totalCredits = 0;
+
+        for (int i = 0; i < coursesTaken.size(); i++) {
+            Course course = coursesTaken.get(i);
+            Grade grade = course.getGrades().get(i);
+            totalPoints += grade.getValue() * course.getCredits();
+            totalCredits += course.getCredits();
+        }
+
+        return totalCredits == 0 ? 0.0 : totalPoints / totalCredits;
+    }
+
     public String getStudentID() {
         return this.studentID;
     }

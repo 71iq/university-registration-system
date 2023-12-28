@@ -8,6 +8,7 @@ public class Course {
     private final int credits;
     private List<Course> prerequisites;
     private final List<Section> sec = new ArrayList<>();
+    private final List<Grade> grades = new ArrayList<>();
 
     Course(String name, int c, ArrayList<Course> pre) {
         this.name = name;
@@ -16,6 +17,7 @@ public class Course {
         sec.addAll(IntStream.rangeClosed('A', 'D')
                 .mapToObj(section -> new Section(this, (char) section))
                 .toList());
+        assignRandomGrades();
     }
 
     public Course(String name, int c) {
@@ -25,6 +27,7 @@ public class Course {
         sec.addAll(IntStream.rangeClosed('A', 'D')
                 .mapToObj(section -> new Section(this, (char) section))
                 .toList());
+        assignRandomGrades();
     }
 
     public void setPrerequisites(List<Course> prerequisites) {
@@ -128,6 +131,34 @@ public class Course {
     public boolean hasPrerequisites() {
         return this.getPrerequisites().size() == 1 && this.getPrerequisites().getFirst().getName().equals("none");
     }
+
+    public List<Grade> getGrades() {
+        return grades;
+    }
+
+    public void assignRandomGrades() {
+    for (int i = 0; i < getStudentsNumber(); i++) {
+        double gradeValue;
+
+        double randomProbability = Math.random();
+
+        if (randomProbability < 0.015) {
+            // 1.5% probability of getting higher than 3.94
+            gradeValue = 3.95 + Math.random() * (4.0 - 3.95);
+        } else if (randomProbability < 0.2) {
+            // 20% probability of getting between 3.49 and 3.95
+            gradeValue = 3.5 + Math.random() * (3.95 - 3.5);
+        } else if (randomProbability < 0.7) {
+            // 50% probability of getting between 2.4 and 3.5
+            gradeValue = 2.5 + Math.random() * (3.5 - 2.5);
+        } else {
+            // 28.5% probability of getting less than 2.5
+            gradeValue = 2.0 + Math.random() * (2.5 - 2.0);
+        }
+
+        grades.add(new Grade(gradeValue));
+    }
+}
 
     public String toString() {
         return "Course: " + this.getName() + " has: " + this.getCredits();

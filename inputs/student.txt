@@ -29,3 +29,42 @@ Henry,Gibson,555-888-9999,City28,1973-03-15,STU28,none
 Lily,Dixon,666-999-0000,City29,1972-06-20,STU29,none
 Owen,Fletcher,777-000-1111,City30,1971-11-05,STU30,none
 Ihab,Maali,0597262036,Salfit,2003-09-12,STU31,none
+Nora,Harrison,666-123-4567,City31,2000-04-15,STU32,mathematics
+Elijah,Knight,777-234-5678,City32,1999-07-20,STU33,biology
+Madison,Murray,888-345-6789,City33,1998-11-25,STU34,computer science
+Grayson,Reid,999-456-7890,City34,1997-02-28,STU35,physics
+Aubrey,Cooper,111-567-8901,City35,1996-06-05,STU36,english literature
+Caleb,Morris,222-678-9012,City36,1995-09-10,STU37,history
+Harper,Ford,333-789-0123,City37,1994-12-15,STU38,psychology
+Sofia,Kim,444-890-1234,City38,1993-03-20,STU39,chemistry
+Jameson,Day,555-901-2345,City39,1992-06-25,STU40,mathematics-statistics
+Luna,Sullivan,666-012-3456,City40,1991-09-30,STU41,computer engineering
+Miles,Bryant,777-123-4567,City41,1990-01-05,STU42,physics
+Eva,Kennedy,888-234-5678,City42,1989-04-10,STU43,mathematics
+Daniel,Watson,999-345-6789,City43,1988-07-15,STU44,history
+Aaliyah,Fisher,111-456-7890,City44,1987-10-20,STU45,psychology
+Sebastian,Wang,222-567-8901,City45,1986-01-25,STU46,chemistry
+Claire,Peters,333-678-9012,City46,1985-05-01,STU47,physics
+Adam,Hudson,444-789-0123,City47,1984-08-06,STU48,english literature
+Penelope,West,555-890-1234,City48,1983-11-11,STU49,biology
+Zachary,Chen,666-901-2345,City49,1982-02-16,STU50,computer science
+Leah,Nguyen,777-012-3456,City50,1981-05-21,STU51,psychology
+Abigail,Turner,888-123-4567,City51,1980-08-26,STU52,chemistry
+Oscar,Ramirez,999-234-5678,City52,1979-11-30,STU53,history
+Hannah,Wallace,111-345-6789,City53,1978-03-06,STU54,physics
+Isaac,Yang,222-456-7890,City54,1977-06-11,STU55,mathematics-statistics
+Eleanor,Gonzalez,333-567-8901,City55,1976-09-16,STU56,computer engineering
+Luke,Reyes,444-678-9012,City56,1975-12-21,STU57,english literature
+Aiden,Li,555-789-0123,City57,1975-02-25,STU58,psychology
+Bella,Kaur,666-890-1234,City58,1973-06-01,STU59,mathematics
+Carter,Hu,777-901-2345,City59,1972-09-06,STU60,biology
+Skylar,Patel,888-012-3456,City60,1971-12-11,STU61,physics
+Avery,Kumar,999-123-4567,City61,1970-03-16,STU62,mathematics
+Leo,Singh,111-234-5678,City62,1969-06-21,STU63,computer science
+Lucy,Mahajan,222-345-6789,City63,1968-09-26,STU64,none
+Julian,Kumar,333-456-7890,City64,1967-12-31,STU65,chemistry
+Violet,Verma,444-567-8901,City65,1967-03-06,STU66,history
+Eli,Biswas,555-678-9012,City66,1965-06-11,STU67,physics
+Stella,Khan,666-789-0123,City67,1964-09-16,STU68,none
+Zoe,Tran,777-890-1234,City68,1963-12-21,STU69,computer engineering
+Benjamin,Choudhury,888-901-2345,City69,1963-03-26,STU70,english literature

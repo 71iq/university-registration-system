@@ -2,7 +2,6 @@ package com.swer348;
 
 import java.util.*;
 import java.time.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Semester {
@@ -102,12 +101,12 @@ public class Semester {
             boolean found = false;
             int tries = 0;
             while (!found && tries++ < 10) {
-                Collections.shuffle(days, new Random(0));
+                Collections.shuffle(days, new Random(new Date().getTime()));
                 for (DayOfWeek day : days) {
                     lecture.setDay(day);
                     Collections.shuffle(hours, new Random(0));
                     for (int i : hours) {
-                        Collections.shuffle(minutes, new Random(0));
+                        Collections.shuffle(minutes, new Random(new Date().getTime()));
                         for (int j : minutes) {
                             for (Room room : rooms) {
                                 LocalTime startTime = LocalTime.MIN.plusHours(i).plusMinutes(j);
@@ -132,6 +131,33 @@ public class Semester {
             }
             if (!found)
                 System.out.println("No time found for lecture: " + lecture);
+        }
+    }
+
+    public static void calculateAndPrintHonors() {
+        System.out.println("Calculating honors for students...");
+
+        for (Student student : students) {
+            double gpa = student.calculateGPA();
+
+            System.out.printf("Student %s %s (ID: %s) - GPA: %.2f%n",
+                    student.getFName(), student.getLName(), student.getStudentID(), gpa);
+
+            if (gpa > 3.89) {
+                System.out.println("Highest Honor");
+            } else if (gpa > 2.99) {
+                System.out.println("Honor");
+            } else if (gpa < 1.0) {
+                System.out.println("Failure");
+            }
+            else if(gpa<2.0){
+                System.out.println("Probation");
+            }
+            else{
+                System.out.println("Nut Bad");
+            }
+
+            System.out.println();
         }
     }
 
