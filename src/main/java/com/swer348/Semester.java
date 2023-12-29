@@ -55,6 +55,7 @@ public class Semester {
                     course.addStudent(student);
                     student.addCourse(course);
                     student.setCredits(student.getCredits() + course.getCredits());
+                    student.addGrade(course, Grade.assignRandomGrade());
                 }
             }
         }
@@ -96,31 +97,28 @@ public class Semester {
         Collections.shuffle(lectures);
         List<DayOfWeek> days = new ArrayList<>(List.of(DayOfWeek.values()));
         days.removeAll(List.of(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY));
-        List<Integer> hours = new ArrayList<>(IntStream.range(8, 15).boxed().toList()), minutes = new ArrayList<>(IntStream.range(0, 6).map(e -> e * 10).boxed().toList());
+        List<Integer> hours = new ArrayList<>(IntStream.range(8, 17).boxed().toList()), minutes = new ArrayList<>(IntStream.range(0, 6).map(e -> e * 10).boxed().toList());
         for (Lecture lecture : lectures) {
             boolean found = false;
-            int tries = 0;
-            while (!found && tries++ < 10) {
-                Collections.shuffle(days, new Random(new Date().getTime()));
-                for (DayOfWeek day : days) {
-                    lecture.setDay(day);
-                    Collections.shuffle(hours, new Random(0));
-                    for (int i : hours) {
-                        Collections.shuffle(minutes, new Random(new Date().getTime()));
-                        for (int j : minutes) {
-                            for (Room room : rooms) {
-                                LocalTime startTime = LocalTime.MIN.plusHours(i).plusMinutes(j);
-                                LocalTime endTime = startTime.plusMinutes(lecture.getLectureDuration());
-                                lecture.setStartTime(startTime);
-                                lecture.setEndTime(endTime);
-                                if (room.getSchedule().isNotBusy(day, startTime, endTime) && lecture.getSection().getStudents().stream().allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime)) && lecture.getSection().getInstructor().getSchedule().isNotBusy(day, startTime, endTime)) {
-                                    lecture.setRoom(room);
-                                    room.getSchedule().addLecture(lecture);
-                                    lecture.getSection().getInstructor().getSchedule().addLecture(lecture);
-                                    lecture.getSection().getStudents().forEach(e -> e.getSchedule().addLecture(lecture));
-                                    found = true;
-                                }
-                                if (found) break;
+            Collections.shuffle(days, new Random(new Date().getTime()));
+            for (DayOfWeek day : days) {
+                lecture.setDay(day);
+                Collections.shuffle(hours, new Random(new Date().getTime()));
+                for (int i : hours) {
+                    Collections.shuffle(minutes, new Random(new Date().getTime()));
+                    for (int j : minutes) {
+                        Collections.shuffle(rooms, new Random(new Date().getTime()));
+                        for (Room room : rooms) {
+                            LocalTime startTime = LocalTime.MIN.plusHours(i).plusMinutes(j);
+                            LocalTime endTime = startTime.plusMinutes(lecture.getLectureDuration());
+                            lecture.setStartTime(startTime);
+                            lecture.setEndTime(endTime);
+                            if (room.getSchedule().isNotBusy(day, startTime, endTime) && lecture.getSection().getStudents().stream().allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime)) && lecture.getSection().getInstructor().getSchedule().isNotBusy(day, startTime, endTime)) {
+                                lecture.setRoom(room);
+                                room.getSchedule().addLecture(lecture);
+                                lecture.getSection().getInstructor().getSchedule().addLecture(lecture);
+                                lecture.getSection().getStudents().forEach(e -> e.getSchedule().addLecture(lecture));
+                                found = true;
                             }
                             if (found) break;
                         }
@@ -128,9 +126,9 @@ public class Semester {
                     }
                     if (found) break;
                 }
+                if (found) break;
             }
-            if (!found)
-                System.out.println("No time found for lecture: " + lecture);
+            if (!found) System.out.println("No time found for lecture: " + lecture);
         }
     }
 
@@ -140,24 +138,7 @@ public class Semester {
         for (Student student : students) {
             double gpa = student.calculateGPA();
 
-            System.out.printf("Student %s %s (ID: %s) - GPA: %.2f%n",
-                    student.getFName(), student.getLName(), student.getStudentID(), gpa);
-
-            if (gpa > 3.89) {
-                System.out.println("Highest Honor");
-            } else if (gpa > 2.99) {
-                System.out.println("Honor");
-            } else if (gpa < 1.0) {
-                System.out.println("Failure");
-            }
-            else if(gpa<2.0){
-                System.out.println("Probation");
-            }
-            else{
-                System.out.println("Nut Bad");
-            }
-
-            System.out.println();
+            System.out.printf("Student %s %s (ID: %s) - GPA: %.2f - Rate: %s\n", student.getFName(), student.getLName(), student.getStudentID(), gpa, (gpa >= 3.9 ? "Highest Honor" : (gpa >= 3.0 ? "Honor" : (gpa < 1.0 ? "Failure" : (gpa < 2.0 ? "Probation" : "Not Bad")))));
         }
     }
 

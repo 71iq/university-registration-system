@@ -75,7 +75,7 @@ public class CourseManager {
     public static void switchSection() {
         System.out.println("Enter the id for the student: ");
         String str = sc.next().trim().toLowerCase();
-        if (Person.studentNotExists(str)) {
+        if (!Person.studentExists(str)) {
             System.out.println("The student doesn't exist");
             return;
         }
@@ -117,13 +117,6 @@ public class CourseManager {
         String s2 = sc.next().toUpperCase();
         Character c = s2.charAt(0);
         courses.get(courseIndex(str)).getAllStudentsSection(c).forEach(System.out::println);
-    }
-
-    static void printStudentSchedule() {
-        System.out.print("Enter the student ID: ");
-        String id = sc.next().trim().toUpperCase();
-        if (Person.studentNotExists(id)) System.out.println("Student Doesn't Exist!!");
-        System.out.printf(Person.getStudentById(id).getSchedule().toString());
     }
 
     static boolean courseExist(String name) {

@@ -2,11 +2,13 @@ package com.swer348;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Student extends Person {
     String studentID;
     private int credits = 0;
     ArrayList<Course> coursesTaken;
+    HashMap<Course, Grade> grades = new HashMap<>();
     Schedule schedule;
 
     public Student(String fName, String lName, String phoneNum, String city, LocalDate dob, String studentID, ArrayList<Course> cT) {
@@ -15,6 +17,11 @@ public class Student extends Person {
         this.coursesTaken = cT;
         this.schedule = new Schedule();
         if (coursesTaken.size() == 1 && coursesTaken.getFirst().getName().equals("none")) coursesTaken.clear();
+        assignRandomGrades();
+    }
+
+    public void assignRandomGrades() {
+        for (Course course : coursesTaken) addGrade(course, Grade.assignRandomGrade());
     }
 
     public double calculateGPA() {
@@ -22,17 +29,15 @@ public class Student extends Person {
             return 0.0;
         }
 
-        double totalPoints = 0.0;
-        int totalCredits = 0;
+        double[] totalPoints = {0.0};
+        int[] totalCredits = {0};
 
-        for (int i = 0; i < coursesTaken.size(); i++) {
-            Course course = coursesTaken.get(i);
-            Grade grade = course.getGrades().get(i);
-            totalPoints += grade.getValue() * course.getCredits();
-            totalCredits += course.getCredits();
-        }
+        getGrades().forEach((key, value) -> {
+            totalCredits[0] += key.getCredits();
+            totalPoints[0] += value.getValue() * key.getCredits();
+        });
 
-        return totalCredits == 0 ? 0.0 : totalPoints / totalCredits;
+        return totalCredits[0] == 0 ? 0.0 : totalPoints[0] / totalCredits[0];
     }
 
     public String getStudentID() {
@@ -41,7 +46,8 @@ public class Student extends Person {
 
     public boolean eligible(Course course) {
         if (course.hasPrerequisites()) for (Course c : course.getPrerequisites())
-            if (!this.getCoursesTaken().contains(c)) return false;
+            if (!this.getCoursesTaken().contains(c) || this.getCoursesTaken().stream().anyMatch(e -> e.getName().equals(c.getName()) && getGrades().get(e).getValue() < 1.0))
+                return false;
         return !coursesTaken.contains(course);
     }
 
@@ -67,6 +73,18 @@ public class Student extends Person {
 
     public void addCourse(Course course) {
         this.getCoursesTaken().add(course);
+    }
+
+    public void addGrade(Course course, Grade grade) {
+        this.getGrades().put(course, grade);
+    }
+
+    public HashMap<Course, Grade> getGrades() {
+        return grades;
+    }
+
+    public String getFullName() {
+        return this.getFName() + " " + this.getLName();
     }
 
     @Override

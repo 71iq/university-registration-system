@@ -101,16 +101,39 @@ public abstract class Person {
         System.out.printf("Staff %s %s has been added successfully%n%n", fn, ln);
     }
 
-    public static boolean studentNotExists(String id) {
-        return students.stream().noneMatch(e -> e.getStudentID().equals(id));
+    public static boolean studentExists(String id) {
+        return students.stream().anyMatch(e -> e.getStudentID().equals(id));
     }
 
     public static boolean staffExists(String id) {
         return staff.stream().anyMatch(e -> e.getStaffID().equals(id));
     }
 
-    public static boolean FacultyExists(String id) {
+    public static boolean facultyExists(String id) {
         return faculty.stream().anyMatch(e -> e.getFacultyID().equals(id));
+    }
+
+    public static void printGrades() {
+        System.out.println("Enter Student ID");
+        String id = sc.next().trim().toUpperCase();
+        if (!studentExists(id)) {
+            System.out.println("Student doesn't Exist");
+            return;
+        }
+        System.out.printf("Student's name: %s Student's GPA: %.2f Student's Grades: %n", getStudentById(id).getFullName(), getStudentById(id).calculateGPA());
+        getStudentById(id).getGrades().forEach((key, value) -> System.out.println(key.getName() + " " + value));
+    }
+
+    public static void printSchedule() {
+        System.out.println("Enter the person's ID");
+        String id = sc.next().trim().toUpperCase();
+        if (studentExists(id))
+            System.out.println(students.stream().filter(e -> e.getStudentID().equals(id)).toList().getFirst().getSchedule().toString());
+        else if (facultyExists(id))
+            System.out.println(faculty.stream().filter(e -> e.getFacultyID().equals(id)).toList().getFirst().getSchedule().toString());
+        else if (staffExists(id))
+            System.out.println("This Member doesn't have a schedule");
+        else System.out.println("Member doesn't exist");
     }
 
     static Student getStudentById(String id) {
@@ -169,8 +192,8 @@ public abstract class Person {
     public static ArrayList<Faculty> getFaculty() {
         return faculty;
     }
-    // </editor-fold>
 
+    // </editor-fold>
     @Override
     public String toString() {
         return String.format("Name: %s %s, Phone Number: %s, City: %s, Date of Birth: %s", getFName(), getLName(), getPhoneNum(), getCity(), getDob());

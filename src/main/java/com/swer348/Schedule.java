@@ -42,7 +42,7 @@ public class Schedule {
             lectures.forEach(lecture -> {
                 Section section = lecture.getSection();
                 if (section != null)
-                    scheduleStringBuilder.append("  ").append(section.getCourse().getName()).append(" - Section ").append(section.getSection()).append(" from ").append(lecture.getStartTime()).append(" to ").append(lecture.getEndTime()).append("\n");
+                    scheduleStringBuilder.append("  ").append(section.getCourse().getName()).append(" - Section ").append(section.getSection()).append(" from ").append(lecture.getStartTime()).append(" to ").append(lecture.getEndTime()).append(" in room ").append(lecture.getRoom()).append("\n");
             });
         }
         return scheduleStringBuilder.toString();
