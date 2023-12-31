@@ -13,6 +13,7 @@ public class Room {
     public Room(String n) {
         this.name = n;
         this.schedule = new Schedule();
+        getRooms().add(this);
     }
 
     public static void initializeRooms() {

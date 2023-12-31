@@ -20,16 +20,16 @@ public class Schedule {
         }
     }
 
-    public boolean isNotBusy(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
+    public synchronized boolean isNotBusy(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
         return this.getSchedule().get(day).stream().allMatch(e -> e.getEndTime().isBefore(startTime) || e.getStartTime().isAfter(endTime));
     }
 
-    public void addLecture(Lecture lecture) {
+    public synchronized void addLecture(Lecture lecture) {
         this.getSchedule().get(lecture.getDay()).add(lecture);
         this.getSchedule().get(lecture.getDay()).sort(Comparator.comparing((Lecture::getStartTime)));
     }
 
-    public HashMap<DayOfWeek, ArrayList<Lecture>> getSchedule() {
+    public synchronized HashMap<DayOfWeek, ArrayList<Lecture>> getSchedule() {
         return schedule;
     }
 

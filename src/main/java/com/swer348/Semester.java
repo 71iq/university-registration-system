@@ -45,6 +45,10 @@ public class Semester {
         System.out.println("New semester created successfully");
     }
 
+    public static void refreshCourses(){
+        courses = CourseManager.getCourses();
+    }
+
     private static void assignStudentsToCourses() {
         for (Student student : students) {
             int coursesToTake = getRandomNumberInRange(4, 6);

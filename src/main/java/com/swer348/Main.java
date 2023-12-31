@@ -44,20 +44,21 @@ public class Main {
         readFile("staff");
         do {
             System.out.println("Enter the value desired: ");
-            System.out.println("Enter 1 to add a new member: ");
-            System.out.println("Enter 2 to add a new semester: ");
+            System.out.println("Enter 1 to add a new Student/Faculty/Staff: ");
+            System.out.println("Enter 2 to start a new semester: ");
             System.out.println("Enter 3 to add a new course: ");
             System.out.println("Enter 4 to remove a course: ");
             System.out.println("Enter 5 to switch section for a student: ");
             System.out.println("Enter 6 to get a list for all students in a specific course: ");
             System.out.println("Enter 7 to get a list for all students in a specific course and section: ");
             System.out.println("Enter 8 to print the schedule for a specific Member: ");
-            System.out.println("Enter 9 to print the schedule for a specific Room: ");
-            System.out.println("Enter 10 to print a student's grades: ");
-            System.out.println("Enter 11 to remove a member: ");
+            System.out.println("Enter 9 to print All the rooms: ");
+            System.out.println("Enter 10 to print the schedule for a specific Room: ");
+            System.out.println("Enter 11 to remove Student/Faculty/Staff: ");
             System.out.println("Enter 12 to add a student to a course: ");
             System.out.println("Enter 13 to remove a student from a course: ");
-            System.out.println("Enter 14 to get the Academic rank for every student: ");
+            System.out.println("Enter 14 to print a student's grades: ");
+            System.out.println("Enter 15 to get the Academic rank for every student: ");
             System.out.println("Enter 0 to exit the program: ");
 
             // Check if the next input is an integer
@@ -74,9 +75,13 @@ public class Main {
                     case 6 -> CourseManager.getAllStudents();
                     case 7 -> CourseManager.getAllStudentsSection();
                     case 8 -> Person.printSchedule();
-                    case 9 -> Room.printRoomSchedule();
-                    case 10 -> Person.printGrades();
-                    case 14 -> Semester.calculateAndPrintHonors();
+                    case 9 -> System.out.format("%s\n",Room .getRooms());
+                    case 10 -> Room.printRoomSchedule();
+                    case 11 -> Person.removeMember();
+                    case 12 -> CourseManager.addStudent();
+                    case 13 -> CourseManager.RemoveStudent();
+                    case 14 -> Person.printGrades();
+                    case 15 -> Semester.calculateAndPrintHonors();
                     case 0 -> System.out.println("Exiting the program. Goodbye!");
                     default -> System.out.print("Invalid input. Please enter a valid option.");
                 }
@@ -94,4 +99,6 @@ public class Main {
     public static Scanner getScanner() {
         return sc;
     }
+
+
 }

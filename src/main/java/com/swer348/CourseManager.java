@@ -94,6 +94,78 @@ public class CourseManager {
         courses.get(courseIndex(co)).switchSection(str, c1, c2);
     }
 
+    public static void addStudent() {
+        System.out.println("Please Enter the Student ID: ");
+        String studentID = sc.next().trim().toUpperCase();
+        sc.nextLine();
+        System.out.println("Please Enter the name for the course you want to add the student to: ");
+        String courseName = sc.nextLine().trim().toLowerCase();
+
+        int indax = courseIndex(courseName);
+        Course course = courses.get(indax);
+
+        if (course == null) {
+            System.out.println("This Course does not exist. Make sure you enter a valid course name");
+            return;
+        }
+
+        // Check if the student already exists
+        if (!Person.studentExists(studentID)) {
+            System.out.println("Student with ID " + studentID + " does not exist. Please add the student first.");
+            return;
+        }
+
+        Student student = Person.getStudentById(studentID);
+
+        // Check if the student is already enrolled in the course
+        if (course.getAllStudents().contains(student)) {
+            System.out.println("Student is already enrolled in the course.");
+        } else {
+            // Add the student to the course
+            course.addStudent(student);
+            student.addCourse(course);
+            Semester.refreshCourses();
+            System.out.println("Student added to the course successfully.");
+        }
+    }
+
+
+    public static void RemoveStudent(){
+        System.out.println("Please Enter the Student ID: ");
+        String studentID = sc.next().trim().toUpperCase();
+        sc.nextLine();
+        System.out.println("Please Enter the name for the course you want to delete the student from: ");
+        String courseName = sc.nextLine().trim().toLowerCase();
+
+        int indax = courseIndex(courseName);
+        Course course = courses.get(indax);
+
+        if (course == null) {
+            System.out.println("This Course does not exist. Make sure you enter a valid course name");
+            return;
+        }
+
+        // Check if the student already exists
+        if (!Person.studentExists(studentID)) {
+            System.out.println("Student with ID " + studentID + " does not exist. Please add the student first.");
+            return;
+        }
+
+        Student student = Person.getStudentById(studentID);
+
+        if(!course.getAllStudents().contains(student)){
+            System.out.println("Student does not exist in this course");
+            return;
+        }
+
+        else {
+            course.removeStudent(student);
+            student.removeCourse(course);
+            Semester.refreshCourses();
+            System.out.println("Student deleted from the course successfully.");
+        }
+    }
+
     static void getAllStudents() {
         System.out.println("Enter the name of the course: ");
         sc.nextLine();

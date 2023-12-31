@@ -101,6 +101,80 @@ public abstract class Person {
         System.out.printf("Staff %s %s has been added successfully%n%n", fn, ln);
     }
 
+    public static void removeMember() {
+        System.out.println("Enter the role you want to remove:");
+        System.out.println("1. Student");
+        System.out.println("2. Faculty");
+        System.out.println("3. Staff");
+        System.out.println("0. Cancel");
+    
+        if (sc.hasNextInt()) {
+            int choice = sc.nextInt();
+    
+            switch (choice) {
+                case 1:
+                    removeStudent();
+                    break;
+                case 2:
+                    removeFaculty();
+                    break;
+                case 3:
+                    removeStaff();
+                    break;
+                case 0:
+                    System.out.println("Operation canceled.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        } else {
+            System.out.println("Invalid input.");
+        }
+    }
+    
+    private static void removeStudent() {
+        System.out.println("Enter the student ID to remove:");
+        String studentID = sc.next().trim().toUpperCase();
+    
+        if (!studentExists(studentID)) {
+            System.out.println("Student not found.");
+            return;
+        }
+    
+        Student studentToRemove = getStudentById(studentID);
+        students.remove(studentToRemove);
+        System.out.println("Student removed successfully.");
+    }
+    
+    private static void removeFaculty() {
+        System.out.println("Enter the faculty ID to remove:");
+        String facultyID = sc.next().trim().toUpperCase();
+    
+        if (!facultyExists(facultyID)) {
+            System.out.println("Faculty not found.");
+            return;
+        }
+    
+        Faculty facultyToRemove = faculty.stream().filter(e -> e.getFacultyID().equals(facultyID)).findFirst().orElse(null);
+        faculty.remove(facultyToRemove);
+        System.out.println("Faculty removed successfully.");
+    }
+    
+    private static void removeStaff() {
+        System.out.println("Enter the staff ID to remove:");
+        String staffID = sc.next().trim().toUpperCase();
+    
+        if (!staffExists(staffID)) {
+            System.out.println("Staff not found.");
+            return;
+        }
+    
+        Staff staffToRemove = staff.stream().filter(e -> e.getStaffID().equals(staffID)).findFirst().orElse(null);
+        staff.remove(staffToRemove);
+        System.out.println("Staff removed successfully.");
+    }
+
     public static boolean studentExists(String id) {
         return students.stream().anyMatch(e -> e.getStudentID().equals(id));
     }

@@ -75,6 +75,10 @@ public class Student extends Person {
         this.getCoursesTaken().add(course);
     }
 
+    public void removeCourse(Course course){
+        this.getCoursesTaken().remove(course);
+    }
+
     public void addGrade(Course course, Grade grade) {
         this.getGrades().put(course, grade);
     }
