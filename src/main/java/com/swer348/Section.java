@@ -6,7 +6,8 @@ public class Section {
 
     private final Character section;
     private final Course course;
-    private int credits, lectureDuration;
+    private final int credits;
+    private int lectureDuration;
     private final ArrayList<Student> students = new ArrayList<>();
     private Faculty instructor;
     private final ArrayList<Lecture> lectures = new ArrayList<>();
@@ -29,10 +30,6 @@ public class Section {
 
     public void setInstructor(Faculty instructor) {
         this.instructor = instructor;
-    }
-
-    public void setCredits(int credits) {
-        this.credits = credits;
     }
 
     public int getLectureDuration() {

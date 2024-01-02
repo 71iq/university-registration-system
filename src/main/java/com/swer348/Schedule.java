@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Schedule {
     private final HashMap<DayOfWeek, ArrayList<Lecture>> schedule;
+    public static Scanner sc = Main.getScanner();
 
     public Schedule() {
         this.schedule = new HashMap<>();
@@ -31,6 +32,38 @@ public class Schedule {
 
     public synchronized HashMap<DayOfWeek, ArrayList<Lecture>> getSchedule() {
         return schedule;
+    }
+
+    public static void manageSchedule() {
+        int input;
+        do {
+            System.out.println("Enter 1 to print a schedule for a member: ");
+            System.out.println("Enter 2 to print a schedule for a room: ");
+            System.out.println("Enter 0 to go back: ");
+            System.out.println("Enter -1 to exit the program: ");
+
+            if (sc.hasNextInt()) {
+                input = sc.nextInt();
+                switch (input) {
+                    case 1 -> Member.printSchedule();
+                    case 2 -> Room.printRoomSchedule();
+                    case 0 -> System.out.println("Going Back...");
+                    case -1 -> Main.setExit();
+                    default -> System.out.print("Invalid input. Please enter a valid option.");
+                }
+                if (input == 0) return;
+            } else {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                sc.nextLine();
+                input = 0;
+            }
+        } while (input != -1);
+    }
+
+    public void removeCourse(Course course) {
+        for (DayOfWeek day : EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY)) {
+            this.getSchedule().put(day, new ArrayList<>(this.getSchedule().get(day).stream().filter(e -> e.getSection() != null && !e.getSection().getCourse().equals(course)).toList()));
+        }
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Semester {
         lectures = new ArrayList<>();
         students = Student.getStudents();
         courses = CourseManager.getCourses();
-        faculty = Person.getFaculty();
+        faculty = Member.getFaculty();
         rooms = Room.getRooms();
         sections = Section.getSections();
 
@@ -41,12 +41,9 @@ public class Semester {
         assignSectionsLectureDuration();
         generateLectures();
         assignRoomToLecture();
+        assignAcademicStandings();
 
         System.out.println("New semester created successfully");
-    }
-
-    public static void refreshCourses(){
-        courses = CourseManager.getCourses();
     }
 
     private static void assignStudentsToCourses() {
@@ -102,6 +99,8 @@ public class Semester {
         List<DayOfWeek> days = new ArrayList<>(List.of(DayOfWeek.values()));
         days.removeAll(List.of(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY));
         List<Integer> hours = new ArrayList<>(IntStream.range(8, 17).boxed().toList()), minutes = new ArrayList<>(IntStream.range(0, 6).map(e -> e * 10).boxed().toList());
+        // may seem slow but time complexity worst case (very rare) almost = 270 * 5 * 9 * 6 * 60 * 7(if statement conditions) * 5(isNotBusy method)= 153 million loop
+        // but with amortized analysis it's
         for (Lecture lecture : lectures) {
             boolean found = false;
             Collections.shuffle(days, new Random(new Date().getTime()));
@@ -134,6 +133,11 @@ public class Semester {
             }
             if (!found) System.out.println("No time found for lecture: " + lecture);
         }
+    }
+
+    private static void assignAcademicStandings() {
+        for(Student student : students)
+            student.assignStanding();
     }
 
     public static void calculateAndPrintHonors() {

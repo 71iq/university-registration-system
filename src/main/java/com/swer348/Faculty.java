@@ -2,7 +2,7 @@ package com.swer348;
 
 import java.time.LocalDate;
 
-public class Faculty extends Person{
+public class Faculty extends Member {
     String facultyID;
     private Schedule schedule;
     private int credits = 0;

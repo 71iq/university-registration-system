@@ -4,26 +4,64 @@ import java.io.*;
 import java.time.*;
 import java.util.*;
 
-public abstract class Person {
+public abstract class Member {
 
     private static String fn, ln, nm, ct;
     private static LocalDate DoB;
-    private String fName;
-    private String lName;
-    private String phoneNum;
-    private String city;
-    private LocalDate dob;
+    private final String fName, lName, phoneNum, city;
+    private final LocalDate dob;
     private static final ArrayList<Student> students = new ArrayList<>();
     private static final ArrayList<Faculty> faculty = new ArrayList<>();
     private static final ArrayList<Staff> staff = new ArrayList<>();
     static Scanner sc = Main.getScanner();
 
-    public Person(String fName, String lName, String phoneNum, String city, LocalDate dob) {
+    public Member(String fName, String lName, String phoneNum, String city, LocalDate dob) {
         this.fName = fName;
         this.lName = lName;
         this.phoneNum = phoneNum;
         this.city = city;
         this.dob = dob;
+    }
+
+    public static void manageMember() {
+        int input;
+        do {
+            System.out.println("Enter 1 to add a new member: ");
+            System.out.println("Enter 2 to remove a member: ");
+            System.out.println("Enter 3 to print a student's grades: ");
+            System.out.println("Enter 4 to print a member's profile: ");
+            System.out.println("Enter 0 to go back: ");
+            System.out.println("Enter -1 to exit the program: ");
+
+            if (sc.hasNextInt()) {
+                input = sc.nextInt();
+                switch (input) {
+                    case 1 -> addMember();
+                    case 2 -> removeMember();
+                    case 3 -> printGrades();
+                    case 4 -> printProfile();
+                    case 0 -> System.out.println("Going Back...");
+                    case -1 -> Main.setExit();
+                    default -> System.out.print("Invalid input. Please enter a valid option.");
+                }
+                if (input == 0) return;
+            } else {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                sc.nextLine();
+                input = 0;
+            }
+        } while (input != -1);
+    }
+
+    public static void printProfile() {
+        System.out.println("Enter the ID of the member: ");
+        String id = sc.next().trim().toUpperCase();
+        if (memberExists(id)) System.out.println(getMemberById(id));
+        else System.out.println("Member doesn't exist");
+    }
+
+    public static boolean memberExists(String id) {
+        return staffExists(id) || facultyExists(id) || studentExists(id);
     }
 
     public static void addMember() {
@@ -34,9 +72,9 @@ public abstract class Person {
         System.out.println("Enter 0 to go back");
         if (sc.hasNextInt()) {
             int role = sc.nextInt();
-            if (role == 1) Person.addStudent();
-            if (role == 2) Person.addFaculty();
-            if (role == 3) Person.addStaff();
+            if (role == 1) Member.addStudent();
+            if (role == 2) Member.addFaculty();
+            if (role == 3) Member.addStaff();
         }
     }
 
@@ -107,10 +145,10 @@ public abstract class Person {
         System.out.println("2. Faculty");
         System.out.println("3. Staff");
         System.out.println("0. Cancel");
-    
+
         if (sc.hasNextInt()) {
             int choice = sc.nextInt();
-    
+
             switch (choice) {
                 case 1:
                     removeStudent();
@@ -132,44 +170,44 @@ public abstract class Person {
             System.out.println("Invalid input.");
         }
     }
-    
+
     private static void removeStudent() {
         System.out.println("Enter the student ID to remove:");
         String studentID = sc.next().trim().toUpperCase();
-    
+
         if (!studentExists(studentID)) {
             System.out.println("Student not found.");
             return;
         }
-    
-        Student studentToRemove = getStudentById(studentID);
+
+        Student studentToRemove = (Student) getMemberById(studentID);
         students.remove(studentToRemove);
         System.out.println("Student removed successfully.");
     }
-    
+
     private static void removeFaculty() {
         System.out.println("Enter the faculty ID to remove:");
         String facultyID = sc.next().trim().toUpperCase();
-    
+
         if (!facultyExists(facultyID)) {
             System.out.println("Faculty not found.");
             return;
         }
-    
+
         Faculty facultyToRemove = faculty.stream().filter(e -> e.getFacultyID().equals(facultyID)).findFirst().orElse(null);
         faculty.remove(facultyToRemove);
         System.out.println("Faculty removed successfully.");
     }
-    
+
     private static void removeStaff() {
         System.out.println("Enter the staff ID to remove:");
         String staffID = sc.next().trim().toUpperCase();
-    
+
         if (!staffExists(staffID)) {
             System.out.println("Staff not found.");
             return;
         }
-    
+
         Staff staffToRemove = staff.stream().filter(e -> e.getStaffID().equals(staffID)).findFirst().orElse(null);
         staff.remove(staffToRemove);
         System.out.println("Staff removed successfully.");
@@ -194,8 +232,12 @@ public abstract class Person {
             System.out.println("Student doesn't Exist");
             return;
         }
-        System.out.printf("Student's name: %s Student's GPA: %.2f Student's Grades: %n", getStudentById(id).getFullName(), getStudentById(id).calculateGPA());
-        getStudentById(id).getGrades().forEach((key, value) -> System.out.println(key.getName() + " " + value));
+        System.out.printf("Student's name: %s Student's GPA: %.2f Student's Grades: %n", Objects.requireNonNull(getMemberById(id)).getFullName(), ((Student) Objects.requireNonNull(getMemberById(id))).calculateGPA());
+        ((Student) Objects.requireNonNull(getMemberById(id))).getGrades().forEach((key, value) -> System.out.println(key.getName() + " " + value));
+    }
+
+    public String getFullName() {
+        return this.getFName() + " " + this.getLName();
     }
 
     public static void printSchedule() {
@@ -210,8 +252,14 @@ public abstract class Person {
         else System.out.println("Member doesn't exist");
     }
 
-    static Student getStudentById(String id) {
-        return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found"));
+    static Member getMemberById(String id) {
+        if (id.substring(0, 3).equalsIgnoreCase("STU"))
+            return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found"));
+        else if (id.substring(0, 3).equalsIgnoreCase("STA"))
+            return staff.stream().filter(s -> s.getStaffID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Staff not found"));
+        else if (id.substring(0, 3).equalsIgnoreCase("FAC"))
+            return faculty.stream().filter(s -> s.getFacultyID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Faculty not found"));
+        return null;
     }
 
     // <editor-fold desc="getters and setters">
@@ -219,40 +267,20 @@ public abstract class Person {
         return this.fName;
     }
 
-    public final void setFName(String fName) {
-        this.fName = fName;
-    }
-
     public final String getLName() {
         return this.lName;
-    }
-
-    public final void setLName(String lName) {
-        this.lName = lName;
     }
 
     public final String getPhoneNum() {
         return this.phoneNum;
     }
 
-    public final void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
     public final String getCity() {
         return this.city;
     }
 
-    public final void setCity(String city) {
-        this.city = city;
-    }
-
     public final LocalDate getDob() {
         return this.dob;
-    }
-
-    public final void setDob(LocalDate dob) {
-        this.dob = dob;
     }
 
     public static ArrayList<Staff> getStaff() {
@@ -270,6 +298,6 @@ public abstract class Person {
     // </editor-fold>
     @Override
     public String toString() {
-        return String.format("Name: %s %s, Phone Number: %s, City: %s, Date of Birth: %s", getFName(), getLName(), getPhoneNum(), getCity(), getDob());
+        return String.format("Name: %s %s\nPhone Number: %s\nCity: %s\nDate of Birth: %s\n", getFName(), getLName(), getPhoneNum(), getCity(), getDob());
     }
 }

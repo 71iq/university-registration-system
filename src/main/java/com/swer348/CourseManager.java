@@ -15,6 +15,56 @@ public class CourseManager {
         return courses;
     }
 
+    public static void manageCourse() {
+        int input;
+        do {
+            System.out.println("Enter 1 to add a new course: ");
+            System.out.println("Enter 2 to remove a course: ");
+            System.out.println("Enter 3 to switch section for a student: ");
+            System.out.println("Enter 4 to get a list for all students in a specific course: ");
+            System.out.println("Enter 5 to get a list for all students in a specific course and section: ");
+            System.out.println("Enter 6 to add a student to a course: ");
+            System.out.println("Enter 7 to remove a student from a course: ");
+            System.out.println("Enter 8 to print available courses: ");
+            System.out.println("Enter 9 to print a course's prerequisites: ");
+            System.out.println("Enter 0 to go back: ");
+            System.out.println("Enter -1 to exit the program: ");
+
+            if (sc.hasNextInt()) {
+                input = sc.nextInt();
+                switch (input) {
+                    case 1 -> addCourse();
+                    case 2 -> removeCourse();
+                    case 3 -> switchSection();
+                    case 4 -> getAllStudents();
+                    case 5 -> getAllStudentsSection();
+                    case 6 -> addStudent();
+                    case 7 -> RemoveStudent();
+                    case 8 -> System.out.println(getCourses());
+                    case 9 -> printPres();
+                    case 0 -> System.out.println("Going Back...");
+                    case -1 -> Main.setExit();
+                    default -> System.out.print("Invalid input. Please enter a valid option.");
+                }
+                if (input == 0) return;
+            } else {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                sc.nextLine();
+                input = 0;
+            }
+        } while (input != -1);
+    }
+
+    public static void printPres() {
+        System.out.println("Enter name of the course: ");
+        sc.nextLine();
+        String course = sc.nextLine().trim().toLowerCase();
+        if (!courseExist(course)) System.out.println("Course doesn't exist");
+        else {
+            System.out.println(course + "'s prerequisites are: " + getCourses().get(courseIndex(course)).getPrerequisites().stream().map(Course::getName).toList());
+        }
+    }
+
     public static void addCourse() {
         System.out.println("Enter the name for the course you want to create: ");
         sc.nextLine();
@@ -75,7 +125,7 @@ public class CourseManager {
     public static void switchSection() {
         System.out.println("Enter the id for the student: ");
         String str = sc.next().trim().toLowerCase();
-        if (!Person.studentExists(str)) {
+        if (!Member.studentExists(str)) {
             System.out.println("The student doesn't exist");
             return;
         }
@@ -101,8 +151,7 @@ public class CourseManager {
         System.out.println("Please Enter the name for the course you want to add the student to: ");
         String courseName = sc.nextLine().trim().toLowerCase();
 
-        int indax = courseIndex(courseName);
-        Course course = courses.get(indax);
+        Course course = courses.get(courseIndex(courseName));
 
         if (course == null) {
             System.out.println("This Course does not exist. Make sure you enter a valid course name");
@@ -110,12 +159,12 @@ public class CourseManager {
         }
 
         // Check if the student already exists
-        if (!Person.studentExists(studentID)) {
+        if (!Member.studentExists(studentID)) {
             System.out.println("Student with ID " + studentID + " does not exist. Please add the student first.");
             return;
         }
 
-        Student student = Person.getStudentById(studentID);
+        Student student = (Student) Member.getMemberById(studentID);
 
         // Check if the student is already enrolled in the course
         if (course.getAllStudents().contains(student)) {
@@ -123,22 +172,21 @@ public class CourseManager {
         } else {
             // Add the student to the course
             course.addStudent(student);
+            assert student != null;
             student.addCourse(course);
-            Semester.refreshCourses();
             System.out.println("Student added to the course successfully.");
         }
     }
 
 
-    public static void RemoveStudent(){
+    public static void RemoveStudent() {
         System.out.println("Please Enter the Student ID: ");
         String studentID = sc.next().trim().toUpperCase();
         sc.nextLine();
         System.out.println("Please Enter the name for the course you want to delete the student from: ");
         String courseName = sc.nextLine().trim().toLowerCase();
 
-        int indax = courseIndex(courseName);
-        Course course = courses.get(indax);
+        Course course = courses.get(courseIndex(courseName));
 
         if (course == null) {
             System.out.println("This Course does not exist. Make sure you enter a valid course name");
@@ -146,22 +194,20 @@ public class CourseManager {
         }
 
         // Check if the student already exists
-        if (!Person.studentExists(studentID)) {
+        if (!Member.studentExists(studentID)) {
             System.out.println("Student with ID " + studentID + " does not exist. Please add the student first.");
             return;
         }
 
-        Student student = Person.getStudentById(studentID);
+        Student student = (Student) Member.getMemberById(studentID);
 
-        if(!course.getAllStudents().contains(student)){
+        if (!course.getAllStudents().contains(student))
             System.out.println("Student does not exist in this course");
-            return;
-        }
-
         else {
             course.removeStudent(student);
+            assert student != null;
             student.removeCourse(course);
-            Semester.refreshCourses();
+            student.getSchedule().removeCourse(course);
             System.out.println("Student deleted from the course successfully.");
         }
     }

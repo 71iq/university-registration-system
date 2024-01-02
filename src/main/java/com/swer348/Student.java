@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student extends Person {
-    String studentID;
+public class Student extends Member {
+    String studentID, standing;
     private int credits = 0;
     ArrayList<Course> coursesTaken;
     HashMap<Course, Grade> grades = new HashMap<>();
@@ -18,6 +18,12 @@ public class Student extends Person {
         this.schedule = new Schedule();
         if (coursesTaken.size() == 1 && coursesTaken.getFirst().getName().equals("none")) coursesTaken.clear();
         assignRandomGrades();
+        assignStanding();
+    }
+
+    public void assignStanding() {
+        double gpa = this.calculateGPA();
+        standing = (gpa >= 3.9 ? "Highest Honor" : (gpa >= 3.0 ? "Honor" : (gpa == 0.0 ? "no standing yet" : (gpa < 1.0 ? "Failure" : (gpa < 2.0 ? "Probation" : "Not Bad")))));
     }
 
     public void assignRandomGrades() {
@@ -75,7 +81,7 @@ public class Student extends Person {
         this.getCoursesTaken().add(course);
     }
 
-    public void removeCourse(Course course){
+    public void removeCourse(Course course) {
         this.getCoursesTaken().remove(course);
     }
 
@@ -87,12 +93,8 @@ public class Student extends Person {
         return grades;
     }
 
-    public String getFullName() {
-        return this.getFName() + " " + this.getLName();
-    }
-
     @Override
     public String toString() {
-        return String.format("%s studentID=%s%n", super.toString(), getStudentID());
+        return String.format("%sStudentID=%s\nGPA=%.2f", super.toString(), getStudentID(), calculateGPA());
     }
 }

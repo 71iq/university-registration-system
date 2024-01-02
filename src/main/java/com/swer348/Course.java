@@ -122,6 +122,6 @@ public class Course {
     }
 
     public String toString() {
-        return "Course: " + this.getName() + " has: " + this.getCredits();
+        return "Course: " + this.getName() + " has: " + this.getCredits() + "\n";
     }
 }
