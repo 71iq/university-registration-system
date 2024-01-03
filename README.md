@@ -66,7 +66,7 @@ classes:
 
 ## HTML files documentation by javaDoc
 
-[**package summary**](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/package-summary.html)
+[**package summary**](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/package-summary.html)
 
 **Classes Documentation**
 
