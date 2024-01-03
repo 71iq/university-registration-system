@@ -5,11 +5,36 @@ import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The `Main` class serves as the entry point for the educational system program.
+ * It provides a menu-driven interface to manage members, courses, schedules, and more.
+ *
+ * @author Ehab, Maamoun
+ * @version 1.0
+ * @since 2023-11-19
+ */
 public class Main {
-    private static final Scanner sc = new Scanner(System.in);
-    static boolean assignedCourse = false;
-    static private boolean exit = false;
 
+    /**
+     * Scanner object for user input.
+     */
+    private static final Scanner sc = new Scanner(System.in);
+
+    /**
+     * Flag to indicate if a course has already been assigned during initialization.
+     */
+    private static boolean assignedCourse = false;
+
+    /**
+     * Flag to indicate program exit.
+     */
+    private static boolean exit = false;
+
+    /**
+     * Reads data from a file and initializes members, courses, and rooms.
+     *
+     * @param file The name of the file to read.
+     */
     public static void readFile(String file) {
         try {
             Scanner scanFile = new Scanner(new File("inputs/" + file + ".txt"));
@@ -33,6 +58,11 @@ public class Main {
         }
     }
 
+    /**
+     * Main method to execute the educational system program.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         int input;
         Room.initializeRooms();
@@ -43,6 +73,7 @@ public class Main {
         readFile("faculty");
         readFile("staff");
         do {
+            // display menu options
             System.out.println("Enter the value desired: ");
             System.out.println("Enter 1 to manage members: ");
             System.out.println("Enter 2 to start a new semester: ");
@@ -61,7 +92,7 @@ public class Main {
                     case 1 -> Member.manageMember();
                     case 2 -> Semester.createSemester();
                     case 3 -> CourseManager.manageCourse();
-                    case 4 -> System.out.format("%s\n",Room .getRooms());
+                    case 4 -> System.out.format("%s\n", Room.getRooms());
                     case 5 -> Schedule.manageSchedule();
                     case 6 -> Semester.calculateAndPrintHonors();
                     case 0 -> System.out.println("Exiting the program. Goodbye!");
@@ -79,13 +110,22 @@ public class Main {
 
         } while (input != 0);
 
+        // Close the scanner
         sc.close();
     }
 
+    /**
+     * Retrieves the Scanner object for user input.
+     *
+     * @return The Scanner object.
+     */
     public static Scanner getScanner() {
         return sc;
     }
 
+    /**
+     * Sets the exit flag to true, indicating program exit.
+     */
     public static void setExit() {
         exit = true;
     }

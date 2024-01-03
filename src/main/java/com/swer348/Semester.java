@@ -4,19 +4,55 @@ import java.util.*;
 import java.time.*;
 import java.util.stream.IntStream;
 
+/**
+ * The `Semester` class represents a semester in an educational institution.
+ * It handles the creation and management of various components like students, courses, faculty, rooms, sections, and lectures.
+ * The class includes methods for creating a new semester, assigning students to courses, assigning instructors, generating lectures,
+ * assigning rooms to lectures, and calculating academic standings.
+ *
+ * @author Ehab, Maamoun
+ * @version 1.0
+ * @since 2023-12-19
+ */
 public class Semester {
+    /**
+     * The list of students in the semester.
+     */
     private static ArrayList<Student> students;
+
+    /**
+     * The list of courses in the semester.
+     */
     private static ArrayList<Course> courses;
+
+    /**
+     * The list of faculty members in the semester.
+     */
     private static ArrayList<Faculty> faculty;
+
+    /**
+     * The list of rooms in the semester.
+     */
     private static ArrayList<Room> rooms;
+
+    /**
+     * The list of sections in the semester.
+     */
     private static ArrayList<Section> sections;
+
+    /**
+     * The list of lectures in the semester.
+     */
     private static ArrayList<Lecture> lectures;
 
+    /**
+     * Creates a new semester with initialized components.
+     */
     public static void createSemester() {
         System.out.println("Creating new semester");
 
         lectures = new ArrayList<>();
-        students = Student.getStudents();
+        students = Member.getStudents();
         courses = CourseManager.getCourses();
         faculty = Member.getFaculty();
         rooms = Room.getRooms();
@@ -46,6 +82,9 @@ public class Semester {
         System.out.println("New semester created successfully");
     }
 
+    /**
+     * Assigns students to courses based on random criteria.
+     */
     private static void assignStudentsToCourses() {
         for (Student student : students) {
             int coursesToTake = getRandomNumberInRange(4, 6);
@@ -62,6 +101,9 @@ public class Semester {
         }
     }
 
+    /**
+     * Assigns instructors to sections.
+     */
     private static void assignInstructors() {
         Collections.shuffle(faculty);
         int facultyIndex = 0;
@@ -75,6 +117,9 @@ public class Semester {
         }
     }
 
+    /**
+     * Assigns lecture durations to sections based on credits.
+     */
     private static void assignSectionsLectureDuration() {
         for (Section section : sections) {
             int credits = 1;
@@ -85,6 +130,9 @@ public class Semester {
         }
     }
 
+    /**
+     * Generates lectures for sections with enrolled students.
+     */
     private static void generateLectures() {
         for (Section section : sections)
             if (section.getStudentsNumber() > 0) for (int i = 0; i < section.getNumberOfLectures(); i++) {
@@ -94,6 +142,9 @@ public class Semester {
             }
     }
 
+    /**
+     * Assigns rooms to lectures based on availability and schedules.
+     */
     private static void assignRoomToLecture() {
         Collections.shuffle(lectures);
         List<DayOfWeek> days = new ArrayList<>(List.of(DayOfWeek.values()));
@@ -135,11 +186,17 @@ public class Semester {
         }
     }
 
+    /**
+     * Assigns academic standings to students.
+     */
     private static void assignAcademicStandings() {
-        for(Student student : students)
+        for (Student student : students)
             student.assignStanding();
     }
 
+    /**
+     * Calculates and prints honors for students based on GPA.
+     */
     public static void calculateAndPrintHonors() {
         System.out.println("Calculating honors for students...");
 
@@ -150,6 +207,13 @@ public class Semester {
         }
     }
 
+    /**
+     * Generates a random number within a specified range.
+     *
+     * @param min The minimum value of the range.
+     * @param max The maximum value of the range.
+     * @return A random number within the specified range.
+     */
     private static int getRandomNumberInRange(int min, int max) {
         Random random = new Random();
         return random.nextInt((max - min) + 1) + min;

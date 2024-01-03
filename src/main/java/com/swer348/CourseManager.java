@@ -1,3 +1,10 @@
+/**
+ * The `CourseManager` class manages operations related to courses in an educational system.
+ * It allows the user to add, remove, and manipulate courses, as well as manage students' enrollment.
+ * The class provides a set of functionalities through a menu-driven console interface.
+ *
+ * @since 2024-01-03
+ */
 package com.swer348;
 
 import java.io.FileWriter;
@@ -6,15 +13,37 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
+/**
+ * The `CourseManager` class manages operations related to courses in an educational system.
+ * It allows the user to add, remove, and manipulate courses, as well as manage students' enrollment.
+ * The class provides a set of functionalities through a menu-driven console interface.
+ *
+ * @author Ehab, Maamoun
+ * @version 1.0
+ * @since 2023-12-01
+ */
 public class CourseManager {
-
+    /**
+     * The list of courses managed by the system.
+     */
     private static final ArrayList<Course> courses = new ArrayList<>();
+    /**
+     * Scanner object to handle user input.
+     */
     public static Scanner sc = Main.getScanner();
 
+    /**
+     * Retrieves the list of courses.
+     *
+     * @return The list of courses.
+     */
     public static ArrayList<Course> getCourses() {
         return courses;
     }
 
+    /**
+     * Manages various course-related operations through a menu-driven interface.
+     */
     public static void manageCourse() {
         int input;
         do {
@@ -55,6 +84,9 @@ public class CourseManager {
         } while (input != -1);
     }
 
+    /**
+     * Prints the prerequisites of a specified course.
+     */
     public static void printPres() {
         System.out.println("Enter name of the course: ");
         sc.nextLine();
@@ -65,6 +97,9 @@ public class CourseManager {
         }
     }
 
+    /**
+     * Adds a new course to the system.
+     */
     public static void addCourse() {
         System.out.println("Enter the name for the course you want to create: ");
         sc.nextLine();
@@ -98,6 +133,9 @@ public class CourseManager {
         System.out.printf("The course %s has been added successfully%n", name);
     }
 
+    /**
+     * Removes an existing course from the system.
+     */
     public static void removeCourse() {
         System.out.println("Enter the name for the course you want to remove: ");
         String name = sc.next().trim().toLowerCase();
@@ -122,6 +160,9 @@ public class CourseManager {
         System.out.printf("The course %s has been removed successfully%n", name);
     }
 
+    /**
+     * Switches the section of a student in a specified course.
+     */
     public static void switchSection() {
         System.out.println("Enter the id for the student: ");
         String str = sc.next().trim().toLowerCase();
@@ -144,6 +185,9 @@ public class CourseManager {
         courses.get(courseIndex(co)).switchSection(str, c1, c2);
     }
 
+    /**
+     * Adds a student to a specified course.
+     */
     public static void addStudent() {
         System.out.println("Please Enter the Student ID: ");
         String studentID = sc.next().trim().toUpperCase();
@@ -178,7 +222,9 @@ public class CourseManager {
         }
     }
 
-
+    /**
+     * Removes a student from a specified course.
+     */
     public static void RemoveStudent() {
         System.out.println("Please Enter the Student ID: ");
         String studentID = sc.next().trim().toUpperCase();
@@ -212,6 +258,9 @@ public class CourseManager {
         }
     }
 
+    /**
+     * Retrieves and prints all students enrolled in a specified course.
+     */
     static void getAllStudents() {
         System.out.println("Enter the name of the course: ");
         sc.nextLine();
@@ -223,6 +272,9 @@ public class CourseManager {
         courses.get(courseIndex(str)).getAllStudents().forEach(System.out::println);
     }
 
+    /**
+     * Retrieves and prints all students in a specified section of a course.
+     */
     static void getAllStudentsSection() {
         System.out.println("Enter the name of the course: ");
         sc.nextLine();
@@ -237,10 +289,22 @@ public class CourseManager {
         courses.get(courseIndex(str)).getAllStudentsSection(c).forEach(System.out::println);
     }
 
+    /**
+     * Checks if a course with the given name exists.
+     *
+     * @param name The name of the course to check.
+     * @return true if the course exists, false otherwise.
+     */
     static boolean courseExist(String name) {
         return courses.stream().anyMatch(c -> c.getName().equals(name));
     }
 
+    /**
+     * Retrieves the index of a course with the given name in the courses list.
+     *
+     * @param name The name of the course to find.
+     * @return The index of the course, or -1 if not found.
+     */
     static int courseIndex(String name) {
         int[] ind = {0};
         IntStream.range(0, courses.size()).forEach(i -> ind[0] = courses.get(i).getName().equals(name) ? i : ind[0]);
