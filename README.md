@@ -18,7 +18,7 @@ rooms, and schedules in an educational institution.
 The University Management System is designed to handle various aspects of university management, including student
 enrollment, course assignment, faculty management, room scheduling, and more. It provides a set of classes representing
 different entities in the university and their interactions.
-![class diagram](https://github.com/F23-SWER348/uni-registrat-project-lvl100/uni_class_diagram.png?raw=true)
+![class diagram](https://github.com/F23-SWER348/uni-registrat-project-lvl100/uni_diagram.jpg?raw=true)
 
 ## Features
 
