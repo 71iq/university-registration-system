@@ -18,7 +18,7 @@ rooms, and schedules in an educational institution.
 The University Management System is designed to handle various aspects of university management, including student
 enrollment, course assignment, faculty management, room scheduling, and more. It provides a set of classes representing
 different entities in the university and their interactions.
-![class diagram](https://github.com/F23-SWER348/uni-registrat-project-lvl100/uni_diagram.jpg?raw=true)
+![class diagram](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/uni_diagram.jpg?raw=true)
 
 ## Features
 
@@ -70,35 +70,35 @@ classes:
 
 **Classes Documentation**
 
-- [Course](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Course.html)
-- [CourseManger](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/CourseManager.html)
-- [Faculty](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/JavaDoccom/swer348/Faculty.html)
-- [Grade](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Grade.html)
-- [Lecture](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Lecture.html)
-- [Main](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Main.html)
-- [Member](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Member.html)
-- [Room](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Room.html)
-- [Schedule](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Schedule.html)
-- [Section](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Section.html)
-- [Semester](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Semester.html)
-- [Staff](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Staff.html)
-- [Student](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Student.html)
+- [Course](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Course.html)
+- [CourseManger](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/CourseManager.html)
+- [Faculty](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/JavaDoccom/swer348/Faculty.html)
+- [Grade](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Grade.html)
+- [Lecture](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Lecture.html)
+- [Main](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Main.html)
+- [Member](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Member.html)
+- [Room](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Room.html)
+- [Schedule](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Schedule.html)
+- [Section](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Section.html)
+- [Semester](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Semester.html)
+- [Staff](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Staff.html)
+- [Student](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/Student.html)
 
 **Classes Usages**
 
-- [Course](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Course.html)
-- [CourseManger](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/CourseManager.html)
-- [Faculty](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/JavaDoccom/swer348/class-use/Faculty.html)
-- [Grade](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Grade.html)
-- [Lecture](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Lecture.html)
-- [Main](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Main.html)
-- [Member](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Member.html)
-- [Room](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Room.html)
-- [Schedule](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Schedule.html)
-- [Section](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Section.html)
-- [Semester](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Semester.html)
-- [Staff](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Staff.html)
-- [Student](https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/class-use/Student.html)
+- [Course](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Course.html)
+- [CourseManger](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/CourseManager.html)
+- [Faculty](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/JavaDoccom/swer348/class-use/Faculty.html)
+- [Grade](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Grade.html)
+- [Lecture](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Lecture.html)
+- [Main](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Main.html)
+- [Member](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Member.html)
+- [Room](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Room.html)
+- [Schedule](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Schedule.html)
+- [Section](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Section.html)
+- [Semester](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Semester.html)
+- [Staff](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/Staff.html)
+- [Student](http://htmlpreview.github.io/?https://github.com/F23-SWER348/uni-registrat-project-lvl100/blob/master/javaDoc/com/swer348/class-use/class-use/Student.html)
 
 ## License
 
