@@ -1,6 +1,8 @@
 package com.swer348;
 
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveAction;
 import java.time.*;
 import java.util.stream.IntStream;
 
@@ -130,61 +132,6 @@ public class Semester {
         }
     }
 
-    /**
-     * Generates lectures for sections with enrolled students.
-     */
-    private static void generateLectures() {
-        for (Section section : sections)
-            if (section.getStudentsNumber() > 0) for (int i = 0; i < section.getNumberOfLectures(); i++) {
-                Lecture lecture = new Lecture(section, section.getLectureDuration());
-                section.getLectures().add(lecture);
-                lectures.add(lecture);
-            }
-    }
-
-    /**
-     * Assigns rooms to lectures based on availability and schedules.
-     */
-    private static void assignRoomToLecture() {
-        Collections.shuffle(lectures);
-        List<DayOfWeek> days = new ArrayList<>(List.of(DayOfWeek.values()));
-        days.removeAll(List.of(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY));
-        List<Integer> hours = new ArrayList<>(IntStream.range(8, 17).boxed().toList()), minutes = new ArrayList<>(IntStream.range(0, 6).map(e -> e * 10).boxed().toList());
-        // may seem slow but time complexity worst case (very rare) almost = 270 * 5 * 9 * 6 * 60 * 7(if statement conditions) * 5(isNotBusy method)= 153 million loop
-        // but with amortized analysis it's
-        for (Lecture lecture : lectures) {
-            boolean found = false;
-            Collections.shuffle(days, new Random(new Date().getTime()));
-            for (DayOfWeek day : days) {
-                lecture.setDay(day);
-                Collections.shuffle(hours, new Random(new Date().getTime()));
-                for (int i : hours) {
-                    Collections.shuffle(minutes, new Random(new Date().getTime()));
-                    for (int j : minutes) {
-                        Collections.shuffle(rooms, new Random(new Date().getTime()));
-                        for (Room room : rooms) {
-                            LocalTime startTime = LocalTime.MIN.plusHours(i).plusMinutes(j);
-                            LocalTime endTime = startTime.plusMinutes(lecture.getLectureDuration());
-                            lecture.setStartTime(startTime);
-                            lecture.setEndTime(endTime);
-                            if (room.getSchedule().isNotBusy(day, startTime, endTime) && lecture.getSection().getStudents().stream().allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime)) && lecture.getSection().getInstructor().getSchedule().isNotBusy(day, startTime, endTime)) {
-                                lecture.setRoom(room);
-                                room.getSchedule().addLecture(lecture);
-                                lecture.getSection().getInstructor().getSchedule().addLecture(lecture);
-                                lecture.getSection().getStudents().forEach(e -> e.getSchedule().addLecture(lecture));
-                                found = true;
-                            }
-                            if (found) break;
-                        }
-                        if (found) break;
-                    }
-                    if (found) break;
-                }
-                if (found) break;
-            }
-            if (!found) System.out.println("No time found for lecture: " + lecture);
-        }
-    }
 
     /**
      * Assigns academic standings to students.
@@ -205,6 +152,131 @@ public class Semester {
 
             System.out.printf("Student %s %s (ID: %s) - GPA: %.2f - Rate: %s\n", student.getFName(), student.getLName(), student.getStudentID(), gpa, (gpa >= 3.9 ? "Highest Honor" : (gpa >= 3.0 ? "Honor" : (gpa < 1.0 ? "Failure" : (gpa < 2.0 ? "Probation" : "Not Bad")))));
         }
+    }
+
+    
+    /**
+     * Generates lectures for sections with enrolled students.
+     */
+
+    private static class GenerateLecturesTask extends RecursiveAction {
+        private final List<Section> sections;
+        private final int start;
+        private final int end;
+
+        GenerateLecturesTask(List<Section> sections, int start, int end) {
+            this.sections = sections;
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        protected void compute() {
+            if (end - start <= 2) {
+                for (int i = start; i < end; i++) {
+                    generateLecturesForSection(sections.get(i));
+                }
+            } else {
+                int mid = (start + end) / 2;
+                GenerateLecturesTask leftTask = new GenerateLecturesTask(sections, start, mid);
+                GenerateLecturesTask rightTask = new GenerateLecturesTask(sections, mid, end);
+                invokeAll(leftTask, rightTask);
+            }
+        }
+
+        private void generateLecturesForSection(Section section) {
+            synchronized (lectures) {
+                    if (section.getStudentsNumber() > 0) for (int i = 0; i < section.getNumberOfLectures(); i++) {
+                        Lecture lecture = new Lecture(section, section.getLectureDuration());
+                        section.getLectures().add(lecture);
+                        lectures.add(lecture);
+                    }
+            }
+        }
+    }
+
+    private static void generateLectures() {
+        List<Section> sections = Section.getSections();
+        try (ForkJoinPool forkJoinPool = new ForkJoinPool()) {
+            forkJoinPool.invoke(new GenerateLecturesTask(sections, 0, sections.size()));
+        }
+    }
+
+    /**
+     * Assigns rooms to lectures based on availability and schedules.
+     */
+    
+    private static class AssignRoomTask extends RecursiveAction {
+        private final List<Lecture> lectures;
+        private final int start;
+        private final int end;
+
+        AssignRoomTask(List<Lecture> lectures, int start, int end) {
+            this.lectures = lectures;
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        protected void compute() {
+            if (end - start <= 2) {
+                for (int i = start; i < end; i++) {
+                    assignRoomToLecture(lectures.get(i));
+                }
+            } else {
+                int mid = (start + end) / 2;
+                AssignRoomTask leftTask = new AssignRoomTask(lectures, start, mid);
+                AssignRoomTask rightTask = new AssignRoomTask(lectures, mid, end);
+                invokeAll(leftTask, rightTask);
+            }
+        }
+
+        private void assignRoomToLecture(Lecture lecture) {
+            synchronized (rooms) {
+                    Collections.shuffle(lectures);
+                    List<DayOfWeek> days = new ArrayList<>(List.of(DayOfWeek.values()));
+                    days.removeAll(List.of(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY));
+                    List<Integer> hours = new ArrayList<>(IntStream.range(8, 17).boxed().toList()), minutes = new ArrayList<>(IntStream.range(0, 6).map(e -> e * 10).boxed().toList());
+                    // may seem slow but time complexity worst case (very rare) almost = 270 * 5 * 9 * 6 * 60 * 7(if statement conditions) * 5(isNotBusy method)= 153 million loop
+                    // but with amortized analysis it's
+                        boolean found = false;
+                        Collections.shuffle(days, new Random(new Date().getTime()));
+                        for (DayOfWeek day : days) {
+                            lecture.setDay(day);
+                            Collections.shuffle(hours, new Random(new Date().getTime()));
+                            for (int i : hours) {
+                                Collections.shuffle(minutes, new Random(new Date().getTime()));
+                                for (int j : minutes) {
+                                    Collections.shuffle(rooms, new Random(new Date().getTime()));
+                                    for (Room room : rooms) {
+                                        LocalTime startTime = LocalTime.MIN.plusHours(i).plusMinutes(j);
+                                        LocalTime endTime = startTime.plusMinutes(lecture.getLectureDuration());
+                                        lecture.setStartTime(startTime);
+                                        lecture.setEndTime(endTime);
+                                        if (room.getSchedule().isNotBusy(day, startTime, endTime) && lecture.getSection().getStudents().stream().allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime)) && lecture.getSection().getInstructor().getSchedule().isNotBusy(day, startTime, endTime)) {
+                                            lecture.setRoom(room);
+                                            room.getSchedule().addLecture(lecture);
+                                            lecture.getSection().getInstructor().getSchedule().addLecture(lecture);
+                                            lecture.getSection().getStudents().forEach(e -> e.getSchedule().addLecture(lecture));
+                                        found = true;
+                                        }
+                                        if (found) break;
+                                    }
+                                    if (found) break;
+                                }
+                                if (found) break;
+                            }
+                            if (found) break;
+                        }
+                        if (!found) System.out.println("No time found for lecture: " + lecture);
+                    
+            }
+        }
+    }
+
+    private static void assignRoomToLecture() {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        forkJoinPool.invoke(new AssignRoomTask(lectures, 0, lectures.size()));
     }
 
     /**
