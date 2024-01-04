@@ -17,7 +17,7 @@ public class CourseTest {
         var list = new ArrayList<Course>();
         var s = new Student("Maamoun", "Jamil", "0568209543", "Bethlehem", LocalDate.now(), "202109714", list);
         c.addStudent(s);
-        assertEquals(true, c.studentExist(s));
+        assertTrue(c.studentExist(s));
     }
 
     //Checking the method courseFull() in Course Class work correctly
@@ -29,7 +29,7 @@ public class CourseTest {
             var s = new Student("Ihab", "Maali", "0568209543", "Bethlehem", LocalDate.now(), i+"", list);
             c.addStudent(s);
         }
-        assertEquals(true, c.courseFull());
+        assertTrue(c.courseFull());
     }
 
     //Checking the method getAllStudents() in Course Class work correctly
@@ -70,7 +70,7 @@ public class CourseTest {
         var s1 = new Student("Maamoun", "Jamil", "0568209543", "Bethlehem", LocalDate.now(),"202109714", list);
         c.addStudent(s1);
         String id = s1.getStudentID();
-        assertEquals(true, c.studentExistById(id));
+        assertTrue(c.studentExistById(id));
     }
 
     //Checking the method studentExistById() in Course Class work correctly after deleting the student
@@ -82,6 +82,6 @@ public class CourseTest {
         c.addStudent(s1);
         String id = s1.getStudentID();
         c.removeStudent(s1);
-        assertEquals(false, c.studentExistById(id));
+        assertFalse(c.studentExistById(id));
     }
 }

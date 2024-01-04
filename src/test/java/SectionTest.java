@@ -21,7 +21,7 @@ public class SectionTest {
             var s1 = new Student("Maamoun", "Jamil", "0568209543", "Bethlehem", LocalDate.now(),"202109714", list);
             s.addStudent(s1);
         }
-        assertEquals(true, s.sectionFull());
+        assertTrue(s.sectionFull());
     }
 
     @Test
