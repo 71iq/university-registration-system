@@ -196,7 +196,6 @@ public class Semester {
     }
 
     private static void generateLectures() {
-        List<Section> sections = Section.getSections();
         try (ForkJoinPool forkJoinPool = new ForkJoinPool()) {
             forkJoinPool.invoke(new GenerateLecturesTask(sections, 0, sections.size()));
         }
@@ -205,7 +204,7 @@ public class Semester {
     /**
      * Assigns rooms to lectures based on availability and schedules.
      */
-    
+
     private static class AssignRoomTask extends RecursiveAction {
         private final List<Lecture> lectures;
         private final int start;
