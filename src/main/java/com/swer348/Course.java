@@ -71,7 +71,7 @@ public class Course {
      *
      * @param student The student to be added.
      */
-    void addStudent(Student student) {
+    public void addStudent(Student student) {
         if (courseFull()) {
             System.out.println("The Course is FULL!");
             return;
@@ -143,7 +143,7 @@ public class Course {
      * @param student The student
      * @return true if the student exists in the course, false otherwise.
      */
-    boolean studentExist(Student student) {
+    public boolean studentExist(Student student) {
         return sec.stream().anyMatch(s -> s.studentExist(student));
     }
 
@@ -162,7 +162,7 @@ public class Course {
      *
      * @return true if the course is full, false otherwise.
      */
-    boolean courseFull() {
+    public boolean courseFull() {
         return getStudentsNumber() == 20;
     }
 
@@ -181,7 +181,7 @@ public class Course {
      * @param c The section identifier (A/B/C/D).
      * @return The list of students in the specified section.
      */
-    ArrayList<Student> getAllStudentsSection(Character c) {
+    public ArrayList<Student> getAllStudentsSection(Character c) {
         return sec.get(c - 'A').getStudents();
     }
 
