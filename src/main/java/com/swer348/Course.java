@@ -171,7 +171,7 @@ public class Course {
      *
      * @return The list of all students in the course.
      */
-    ArrayList<Student> getAllStudents() {
+    public ArrayList<Student> getAllStudents() {
         return (ArrayList<Student>) sec.stream().flatMap(s -> s.getStudents().stream()).collect(Collectors.toList());
     }
 

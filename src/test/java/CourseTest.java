@@ -32,6 +32,21 @@ public class CourseTest {
         assertEquals(true, c.courseFull());
     }
 
+    //Checking the method getAllStudents() in Course Class work correctly
+    @Test
+    void CourseAllTest(){
+        var c = new Course("history",3);
+        var list = new ArrayList<Course>();
+        var s1 = new Student("Maamoun", "Jamil", "0568209543", "Bethlehem", LocalDate.now(),"202109714", list);
+        var s2 = new Student("Ihab", "Maali", "0568209543", "Bethlehem", LocalDate.now(),"202109371", list);
+        c.addStudent(s1);
+        c.addStudent(s2);
+        var decider = new ArrayList<Student>();
+        decider.add(s1);
+        decider.add(s2);
+        assertEquals(decider, c.getAllStudents());
+    }
+
     //Checking the method getAllStudentsSection() in Course Class work correctly
     @Test
     void CourseSectionTest(){
