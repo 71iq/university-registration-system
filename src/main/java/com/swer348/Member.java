@@ -86,7 +86,7 @@ public abstract class Member {
      * @param id The ID of the member.
      * @return The member instance if found, or null if not found.
      */
-    static Member getMemberById(String id) {
+    public static Member getMemberById(String id) {
         if (id.substring(0, 3).equalsIgnoreCase("STU"))
             return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found"));
         else if (id.substring(0, 3).equalsIgnoreCase("STA"))
