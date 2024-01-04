@@ -94,7 +94,7 @@ public class Course {
      *
      * @param student The student to be removed.
      */
-    void removeStudent(Student student) {
+    public void removeStudent(Student student) {
         if (!studentExist(student)) {
             System.out.println("THE Student is not REGISTERED in this Course!");
             return;
@@ -153,7 +153,7 @@ public class Course {
      * @param id The ID of the student.
      * @return true if the student with the ID exists in the course, false otherwise.
      */
-    boolean studentExistById(String id) {
+    public boolean studentExistById(String id) {
         return sec.stream().anyMatch(s -> s.studentExistByID(id));
     }
 

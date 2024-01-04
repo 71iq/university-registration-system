@@ -61,4 +61,27 @@ public class CourseTest {
         decider.add(s2);
         assertEquals(decider, c.getAllStudentsSection('A'));
     }
+
+    //Checking the method studentExistById() in Course Class work correctly
+    @Test
+    void CourseStudentExistsByID(){
+        var c = new Course("history",3);
+        var list = new ArrayList<Course>();
+        var s1 = new Student("Maamoun", "Jamil", "0568209543", "Bethlehem", LocalDate.now(),"202109714", list);
+        c.addStudent(s1);
+        String id = s1.getStudentID();
+        assertEquals(true, c.studentExistById(id));
+    }
+
+    //Checking the method studentExistById() in Course Class work correctly after deleting the student
+    @Test
+    void CourseStudentExistsByIDAfterDeletion(){
+        var c = new Course("history",3);
+        var list = new ArrayList<Course>();
+        var s1 = new Student("Maamoun", "Jamil", "0568209543", "Bethlehem", LocalDate.now(),"202109714", list);
+        c.addStudent(s1);
+        String id = s1.getStudentID();
+        c.removeStudent(s1);
+        assertEquals(false, c.studentExistById(id));
+    }
 }

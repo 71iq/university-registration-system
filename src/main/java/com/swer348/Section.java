@@ -58,7 +58,7 @@ public class Section {
      * @param c       The associated course.
      * @param section The section identifier.
      */
-    Section(Course c, Character section) {
+    public Section(Course c, Character section) {
         this.section = section;
         this.course = c;
         this.credits = c.getCredits();
@@ -134,7 +134,7 @@ public class Section {
      *
      * @param student The student to add.
      */
-    void addStudent(Student student) {
+    public void addStudent(Student student) {
         students.add(student);
     }
 
@@ -152,7 +152,7 @@ public class Section {
      *
      * @return True if the section is full, false otherwise.
      */
-    boolean sectionFull() {
+    public boolean sectionFull() {
         return getStudentsNumber() == 5;
     }
 
@@ -191,7 +191,7 @@ public class Section {
      * @return The student with the given ID.
      * @throws RuntimeException if the student is not found.
      */
-    Student getStudentById(String id) {
+    public Student getStudentById(String id) {
         return students.stream().filter(s -> s.getStudentID().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
