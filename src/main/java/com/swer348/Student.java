@@ -63,7 +63,7 @@ public class Student extends Member {
         this.grades = new HashMap<>();
         this.credits = 0;
 
-        if (coursesTaken.size() == 1 && coursesTaken.get(0).getName().equals("none")) {
+        if (coursesTaken.size() == 1 && coursesTaken.getFirst().getName().equals("none")) {
             this.coursesTaken.clear();
         }
 
@@ -128,6 +128,7 @@ public class Student extends Member {
     public boolean eligible(Course course) {
         if (course.hasPrerequisites()) {
             for (Course c : course.getPrerequisites()) {
+                if (c.getName().equals("none")) continue;
                 if (!this.getCoursesTaken().contains(c) || this.getCoursesTaken().stream().anyMatch(e -> e.getName().equals(c.getName()) && getGrades().get(e).getValue() < 1.0)) {
                     return false;
                 }

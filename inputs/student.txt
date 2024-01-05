@@ -38,7 +38,7 @@ Caleb,Morris,222-678-9012,City36,1995-09-10,STU37,history
 Harper,Ford,333-789-0123,City37,1994-12-15,STU38,psychology
 Sofia,Kim,444-890-1234,City38,1993-03-20,STU39,chemistry
 Jameson,Day,555-901-2345,City39,1992-06-25,STU40,mathematics-statistics
-Luna,Sullivan,666-012-3456,City40,1991-09-30,STU41,computer engineering
+Luna,Sullivan,666-012-3456,City40,1991-09-30,STU41,none
 Miles,Bryant,777-123-4567,City41,1990-01-05,STU42,physics
 Eva,Kennedy,888-234-5678,City42,1989-04-10,STU43,mathematics
 Daniel,Watson,999-345-6789,City43,1988-07-15,STU44,history
@@ -53,7 +53,7 @@ Abigail,Turner,888-123-4567,City51,1980-08-26,STU52,chemistry
 Oscar,Ramirez,999-234-5678,City52,1979-11-30,STU53,history
 Hannah,Wallace,111-345-6789,City53,1978-03-06,STU54,physics
 Isaac,Yang,222-456-7890,City54,1977-06-11,STU55,mathematics-statistics
-Eleanor,Gonzalez,333-567-8901,City55,1976-09-16,STU56,computer engineering
+Eleanor,Gonzalez,333-567-8901,City55,1976-09-16,STU56,none
 Luke,Reyes,444-678-9012,City56,1975-12-21,STU57,english literature
 Aiden,Li,555-789-0123,City57,1975-02-25,STU58,psychology
 Bella,Kaur,666-890-1234,City58,1973-06-01,STU59,mathematics
@@ -66,5 +66,8 @@ Julian,Kumar,333-456-7890,City64,1967-12-31,STU65,chemistry
 Violet,Verma,444-567-8901,City65,1967-03-06,STU66,history
 Eli,Biswas,555-678-9012,City66,1965-06-11,STU67,physics
 Stella,Khan,666-789-0123,City67,1964-09-16,STU68,none
-Zoe,Tran,777-890-1234,City68,1963-12-21,STU69,computer engineering
-Benjamin,Choudhury,888-901-2345,City69,1963-03-26,STU70,english literature
+Benjamin,Choudhury,888-901-2345,City69,1963-03-26,STU69,english literature
+hala,holo,hele,haha,1999-09-09,STU70,none
+hoho,hehe,haha,li,2003-02-20,STU71,none
+
+1fjdlsak,fjdlska,jfdlksa,jklfdsa,1234-12-12,STU73,none

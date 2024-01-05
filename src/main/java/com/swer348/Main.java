@@ -40,6 +40,7 @@ public class Main {
             Scanner scanFile = new Scanner(new File("inputs/" + file + ".txt"));
             while (scanFile.hasNextLine()) {
                 String line = scanFile.nextLine();
+                if(line.isEmpty()) continue;
                 String[] paras = line.split(",");
 
                 if (file.equals("student"))
@@ -48,9 +49,9 @@ public class Main {
                     Member.getFaculty().add(new Faculty(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
                 if (file.equals("staff"))
                     Member.getStaff().add(new Staff(paras[0], paras[1], paras[2], paras[3], LocalDate.parse(paras[4]), paras[5]));
-                if (file.equals("course") && !assignedCourse)
+                if (file.equals("course") && !paras[0].equals("none") && !assignedCourse)
                     CourseManager.getCourses().add(new Course(paras[0].toLowerCase(), Integer.parseInt(paras[1]), new ArrayList<>()));
-                else if (file.equals("course"))
+                else if (file.equals("course")&& !paras[0].equals("none"))
                     CourseManager.getCourses().get(CourseManager.courseIndex(paras[0])).setPrerequisites(Arrays.stream(paras[2].split("-")).map(e -> CourseManager.getCourses().get(CourseManager.courseIndex(e))).collect(Collectors.toList()));
             }
         } catch (FileNotFoundException e) {
@@ -74,6 +75,7 @@ public class Main {
         readFile("staff");
         do {
             // display menu options
+            System.out.println("OPTIONS 5 AND 6 NEED STARTING A SEMESTER");
             System.out.println("Enter the value desired: ");
             System.out.println("Enter 1 to manage members: ");
             System.out.println("Enter 2 to start a new semester: ");

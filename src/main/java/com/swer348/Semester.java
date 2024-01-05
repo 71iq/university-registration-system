@@ -1,6 +1,7 @@
 package com.swer348;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.time.*;
@@ -129,11 +130,11 @@ public class Semester {
         for (Section section : sections) {
             int credits = 1;
             if (section.getCredits() == 4)
-                credits = new int[] { 2, 4 }[getRandomNumberInRange(0, 1)];
+                credits = new int[]{2, 4}[getRandomNumberInRange(0, 1)];
             else if (section.getCredits() == 3)
-                credits = new int[] { 1, 3 }[getRandomNumberInRange(0, 1)];
+                credits = new int[]{1, 3}[getRandomNumberInRange(0, 1)];
             else if (section.getCredits() == 2)
-                credits = new int[] { 1, 2 }[getRandomNumberInRange(0, 1)];
+                credits = new int[]{1, 2}[getRandomNumberInRange(0, 1)];
             section.setLectureDuration(credits * 50);
         }
     }
@@ -159,7 +160,7 @@ public class Semester {
                     student.getStudentID(), gpa,
                     (gpa >= 3.9 ? "Highest Honor"
                             : (gpa >= 3.0 ? "Honor"
-                                    : (gpa < 1.0 ? "Failure" : (gpa < 2.0 ? "Probation" : "Not Bad")))));
+                            : (gpa < 1.0 ? "Failure" : (gpa < 2.0 ? "Probation" : "Not Bad")))));
         }
     }
 
@@ -240,9 +241,9 @@ public class Semester {
                             lecture.setEndTime(endTime);
                             if (room.getSchedule().isNotBusy(day, startTime, endTime)
                                     && lecture.getSection().getStudents().stream()
-                                            .allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime))
+                                    .allMatch(e -> e.getSchedule().isNotBusy(day, startTime, endTime))
                                     && lecture.getSection().getInstructor().getSchedule().isNotBusy(day, startTime,
-                                            endTime)) {
+                                    endTime)) {
                                 lecture.setRoom(room);
                                 room.getSchedule().addLecture(lecture);
                                 lecture.getSection().getInstructor().getSchedule().addLecture(lecture);

@@ -53,6 +53,7 @@ public abstract class Member {
     public static void manageMember() {
         int input;
         do {
+            System.out.println("OPTION 3 'PREFERABLY' NEEDS A NEW SEMESTER");
             System.out.println("Enter 1 to add a new member: ");
             System.out.println("Enter 2 to remove a member: ");
             System.out.println("Enter 3 to print a student's grades: ");
@@ -131,21 +132,25 @@ public abstract class Member {
     }
 
     public static void addPerson() {
-        System.out.println("Enter the first name: ");
-        firstName = sc.next();
-        System.out.println("Enter the last name: ");
-        lastName = sc.next();
-        System.out.println("Enter the phone number: ");
-        phoneNumber = sc.next();
-        System.out.println("Enter the city: ");
-        city2 = sc.next();
-        System.out.println("Enter the year of birth");
-        int yd = sc.nextInt();
-        System.out.println("Enter the month number of birth");
-        int md = sc.nextInt();
-        System.out.println("Enter the day of birth");
-        int dd = sc.nextInt();
-        DoB = LocalDate.of(yd, md, dd);
+        try {
+            System.out.println("Enter the first name: ");
+            firstName = sc.next();
+            System.out.println("Enter the last name: ");
+            lastName = sc.next();
+            System.out.println("Enter the phone number: ");
+            phoneNumber = sc.next();
+            System.out.println("Enter the city: ");
+            city2 = sc.next();
+            System.out.println("Enter the year of birth");
+            int yd = sc.nextInt();
+            System.out.println("Enter the month number of birth");
+            int md = sc.nextInt();
+            System.out.println("Enter the day of birth");
+            int dd = sc.nextInt();
+            DoB = LocalDate.of(yd, md, dd);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -154,16 +159,15 @@ public abstract class Member {
     public static void addStudent() {
         addPerson();
         String studentId = "STU" + (students.size() + 1);
-        students.add(new Student(firstName, lastName, phoneNumber, city2, DoB, studentId, new ArrayList<>(List.of(new Course("none", 0)))));
         try {
+            students.add(new Student(firstName, lastName, phoneNumber, city2, DoB, studentId, new ArrayList<>(List.of(new Course("none", 0)))));
             FileWriter fw = new FileWriter("inputs/student.txt", true);
-            String coursesTaken = students.getLast().getCoursesTaken().toString().replace(", ", "-");
-            fw.write(String.format("%s,%s,%s,%s,%s,%s,%s%n", firstName, lastName, phoneNumber, city2, DoB.toString(), studentId, coursesTaken.substring(2, coursesTaken.length() - 1)));
+            fw.write(String.format("\n%s,%s,%s,%s,%s,%s,%s", firstName, lastName, phoneNumber, city2, DoB.toString(), studentId, "none"));
             fw.close();
+            System.out.printf("Student %s %s has been added successfully%n%n", firstName, lastName);
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.printf("Student %s %s has been added successfully%n%n", firstName, lastName);
     }
 
     /**
@@ -173,14 +177,14 @@ public abstract class Member {
         addPerson();
         String facultyId = "FAC" + (faculty.size() + 1);
         try {
+            faculty.add(new Faculty(firstName, lastName, phoneNumber, city2, DoB, facultyId));
             FileWriter fw = new FileWriter("inputs/faculty.txt", true);
-            fw.write(String.format("%s,%s,%s,%s,%s,%s%n", firstName, lastName, phoneNumber, city2, DoB.toString(), facultyId));
+            fw.write(String.format("\n%s,%s,%s,%s,%s,%s%n", firstName, lastName, phoneNumber, city2, DoB.toString(), facultyId));
+            System.out.printf("Faculty %s %s has been added successfully%n%n", firstName, lastName);
             fw.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-        faculty.add(new Faculty(firstName, lastName, phoneNumber, city2, DoB, facultyId));
-        System.out.printf("Faculty %s %s has been added successfully%n%n", firstName, lastName);
     }
 
     /**
@@ -191,13 +195,13 @@ public abstract class Member {
         String staffId = "STA" + (staff.size() + 1);
         try {
             FileWriter fw = new FileWriter("inputs/staff.txt", true);
-            fw.write(String.format("%s,%s,%s,%s,%s,%s%n", firstName, lastName, phoneNumber, city2, DoB.toString(), staffId));
+            fw.write(String.format("\n%s,%s,%s,%s,%s,%s", firstName, lastName, phoneNumber, city2, DoB.toString(), staffId));
             fw.close();
+            staff.add(new Staff(firstName, lastName, phoneNumber, city2, DoB, staffId));
+            System.out.printf("Staff %s %s has been added successfully%n%n", firstName, lastName);
         } catch (Exception e) {
             System.out.println(e);
         }
-        staff.add(new Staff(firstName, lastName, phoneNumber, city2, DoB, staffId));
-        System.out.printf("Staff %s %s has been added successfully%n%n", firstName, lastName);
     }
 
     /**
@@ -249,6 +253,20 @@ public abstract class Member {
 
         Student studentToRemove = (Student) getMemberById(studentID);
         students.remove(studentToRemove);
+        try {
+            FileWriter fw = new FileWriter("inputs/student.txt");
+            int ind = 1;
+            for (Student student : students) {
+                boolean take = !student.getCoursesTaken().isEmpty();
+                String coursesTaken = take ? student.getCoursesTaken().stream().map(Course::getName).toList().toString().replace(", ", "-") : "none";
+                coursesTaken = coursesTaken.substring(1, coursesTaken.length() - 1);
+                fw.write(String.format("%s,%s,%s,%s,%s,%s,%s", student.getFName(), student.getLName(), student.getPhoneNum(), student.getCity(), student.getDob().toString(), "STU" + (ind < 10 ? "0" : "") + ind++, take ? coursesTaken : "none"));
+                fw.write('\n');
+            }
+            fw.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         System.out.println("Student removed successfully.");
     }
 
@@ -266,6 +284,17 @@ public abstract class Member {
 
         Faculty facultyToRemove = faculty.stream().filter(e -> e.getFacultyID().equals(facultyID)).findFirst().orElse(null);
         faculty.remove(facultyToRemove);
+        try {
+            FileWriter fw = new FileWriter("inputs/faculty.txt");
+            int ind = 1;
+            for (Faculty fac : faculty) {
+                fw.write(String.format("%s,%s,%s,%s,%s,%s", fac.getFName(), fac.getLName(), fac.getPhoneNum(), fac.getCity(), fac.getDob().toString(), "FAC" + (ind < 10 ? "0" : "") + ind++));
+                fw.write('\n');
+            }
+            fw.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         System.out.println("Faculty removed successfully.");
     }
 
@@ -283,6 +312,17 @@ public abstract class Member {
 
         Staff staffToRemove = staff.stream().filter(e -> e.getStaffID().equals(staffID)).findFirst().orElse(null);
         staff.remove(staffToRemove);
+        try {
+            FileWriter fw = new FileWriter("inputs/staff.txt");
+            int ind = 1;
+            for (Staff sta : staff) {
+                fw.write(String.format("%s,%s,%s,%s,%s,%s", sta.getFName(), sta.getLName(), sta.getPhoneNum(), sta.getCity(), sta.getDob().toString(), "STA" + (ind < 10 ? "0" : "") + ind++));
+                fw.write('\n');
+            }
+            fw.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         System.out.println("Staff removed successfully.");
     }
 
@@ -317,7 +357,7 @@ public abstract class Member {
             System.out.println("Student doesn't Exist");
             return;
         }
-        System.out.printf("Student's name: %s Student's GPA: %.2f Student's Grades: %n", Objects.requireNonNull(getMemberById(id)).getFullName(), ((Student) Objects.requireNonNull(getMemberById(id))).calculateGPA());
+        System.out.printf("Student's name: %s Student's GPA: %.2f Student's Student's Standing: %s Grades: %n", Objects.requireNonNull(getMemberById(id)).getFullName(), ((Student) Objects.requireNonNull(getMemberById(id))).calculateGPA(), ((Student) Objects.requireNonNull(getMemberById(id))).getStanding());
         ((Student) Objects.requireNonNull(getMemberById(id))).getGrades().forEach((key, value) -> System.out.println(key.getName() + " " + value));
     }
 

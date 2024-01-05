@@ -236,6 +236,6 @@ public class Course {
      * @return A string representation of the course.
      */
     public String toString() {
-        return "Course: " + this.getName() + " has: " + this.getCredits() + "\n";
+        return "Course: " + this.getName() + " has: " + this.getCredits() + " prerequisites: " + this.getPrerequisites().stream().map(Course::getName).toList() + "\n";
     }
 }

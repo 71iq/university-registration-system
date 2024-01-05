@@ -1,3 +1,4 @@
+none,100,none
 mathematics,4,none
 computer science,3,mathematics-statistics
 physics,4,mathematics
@@ -30,3 +31,6 @@ foreign languages,3,none
 public relations,3,sociology
 cinema,2,none
 cinema arts,4,cinema-film studies
+hala,2,none
+holo,3,hala
+hili,4,holo-hala

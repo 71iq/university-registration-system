@@ -47,6 +47,7 @@ public class CourseManager {
     public static void manageCourse() {
         int input;
         do {
+            System.out.println("OPTIONS FROM 3 TO 7 NEED STARTING A SEMESTER");
             System.out.println("Enter 1 to add a new course: ");
             System.out.println("Enter 2 to remove a course: ");
             System.out.println("Enter 3 to switch section for a student: ");
@@ -115,22 +116,25 @@ public class CourseManager {
         System.out.println("Enter the prerequisites or 'none' to stop");
         ArrayList<Course> pres = new ArrayList<>();
         String pre;
+        sc.nextLine();
         do {
             pre = sc.nextLine().toLowerCase();
             pres.add(getCourses().get(courseIndex(pre)));
         } while (!pre.equals("none"));
-        if (pres.size() == 1 && pres.getFirst().getName().equals("none")) pres.clear();
+        System.out.println(pres);
+        pres.removeLast();
+        System.out.println(pres);
         courses.add(new Course(name, cr, pres));
         try {
             FileWriter fw = new FileWriter("inputs/course.txt", true);
-            String temp = pres.toString().replaceAll(", ", "-");
-            temp = temp.substring(2, temp.length() - 1);
+            String temp = pres.stream().map(Course::getName).toList().toString().replaceAll(", ", "-");
+            temp = temp.substring(1, temp.length() - 1);
             fw.write(String.format("%s,%d,%s%n", name, cr, temp));
             fw.close();
+            System.out.printf("The course %s has been added successfully%n", name);
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.printf("The course %s has been added successfully%n", name);
     }
 
     /**
@@ -148,16 +152,19 @@ public class CourseManager {
             FileWriter fw = new FileWriter("inputs/course.txt", false);
             courses.forEach(e -> {
                 try {
-                    fw.append(String.format("%s%n", e.toString().toLowerCase()));
+                    String pres = e.getPrerequisites().stream().map(Course::getName).toList().toString().replace(", ", "-");
+                    pres = pres.substring(1, pres.length() - 1);
+                    fw.append(String.format("%s,%s,%s", e.getName(), e.getCredits(), pres));
+                    fw.write('\n');
                 } catch (IOException e1) {
                     System.out.println(e1);
                 }
             });
             fw.close();
+            System.out.printf("The course %s has been removed successfully%n", name);
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.printf("The course %s has been removed successfully%n", name);
     }
 
     /**
@@ -307,7 +314,7 @@ public class CourseManager {
      */
     static int courseIndex(String name) {
         int[] ind = {0};
-        IntStream.range(0, courses.size()).forEach(i -> ind[0] = courses.get(i).getName().equals(name) ? i : ind[0]);
+        IntStream.range(0, courses.size()).forEach(i -> ind[0] = (courses.get(i).getName().equals(name) ? i : ind[0]));
         return ind[0];
     }
 }
