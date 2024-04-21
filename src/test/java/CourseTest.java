@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test;
 
-import com.swer348.Course;
-import com.swer348.Student;
+import com.ehab.urs.Course;
+import com.ehab.urs.Student;
 
 import static org.junit.jupiter.api.Assertions.*;
 

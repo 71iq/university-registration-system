@@ -1,8 +1,8 @@
-import com.swer348.Lecture;
+import com.ehab.urs.Lecture;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.swer348.Schedule;
+import com.ehab.urs.Schedule;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

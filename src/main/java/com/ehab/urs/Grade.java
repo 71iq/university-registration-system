@@ -1,4 +1,4 @@
-package com.swer348;
+package com.ehab.urs;
 
 /**
  * The `Grade` class represents a student's grade in a course.
