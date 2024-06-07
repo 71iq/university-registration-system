@@ -1,4 +1,4 @@
-# University Management System
+# University Registration System
 
 The University Management System is a Java-based project that simulates the management of courses, students, faculty,
 rooms, and schedules in an educational institution.
